@@ -1,7 +1,4 @@
-import plotly.express as px
-from itertools import groupby
 from pymongo import MongoClient
-from datetime import datetime
 
 # Provide the connection details
 hostname = 'localhost'
