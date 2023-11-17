@@ -1,7 +1,8 @@
 import plotly.express as px
 from itertools import groupby
 from datetime import datetime
-# import database.database
+from data.datas import client
+db = client['projetSNCF']
 
 
 def get_data():
