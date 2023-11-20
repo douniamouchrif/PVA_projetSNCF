@@ -1,7 +1,9 @@
+import data.datas
 import plotly.express as px
 from itertools import groupby
 from datetime import datetime
-from data.datas import client
+from pymongo import MongoClient
+client = MongoClient('localhost', 27017)
 db = client['projetSNCF']
 
 
