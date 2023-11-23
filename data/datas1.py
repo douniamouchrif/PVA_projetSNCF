@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 import requests
 
+BASE_URL = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/'
+
 
 def fetch_and_insert_data(db, collection_name, url, limit=100):
     collection = db[collection_name]
@@ -29,21 +31,21 @@ client = MongoClient(hostname, port)
 db = client['projetSNCF']  # projetSNCF = database de notre projet
 
 # Example usage for sncf23 collection
-url23 = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/incidents-de-securite-epsf/records'
+url23 = BASE_URL + 'incidents-de-securite-epsf/records'
 fetch_and_insert_data(db, "sncf23", url23)
 
 # Example usage for sncf1522 collection
-url1522 = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/incidents-securite/records'
+url1522 = BASE_URL + 'incidents-securite/records'
 fetch_and_insert_data(db, "sncf1522", url1522)
 
 # Example usage for sncfLigneE collection
-urlLigneE = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/liste-des-lignes-electrifiees/records'
+urlLigneE = BASE_URL + 'liste-des-lignes-electrifiees/records'
 fetch_and_insert_data(db, "sncfLigneE", urlLigneE)
 
 # Example usage for sncf_l_admin collection
-url_l_admin = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/lignes-par-region-administrative/records'
+url_l_admin = BASE_URL + 'lignes-par-region-administrative/records'
 fetch_and_insert_data(db, "sncf_l_admin", url_l_admin)
 
 # Example usage for sncfLigneT collection
-urlLigneT = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/lignes-par-type/records'
+urlLigneT = BASE_URL + 'lignes-par-type/records'
 fetch_and_insert_data(db, "sncfLigneT", urlLigneT)
