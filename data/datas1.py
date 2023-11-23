@@ -30,22 +30,17 @@ client = MongoClient(hostname, port)
 
 db = client['projetSNCF']  # projetSNCF = database de notre projet
 
-# Example usage for sncf23 collection
 url23 = url_SNCF + 'incidents-de-securite-epsf/records'
 fetch_and_insert_data(db, "sncf23", url23)
 
-# Example usage for sncf1522 collection
 url1522 = url_SNCF + 'incidents-securite/records'
 fetch_and_insert_data(db, "sncf1522", url1522)
 
-# Example usage for sncfLigneE collection
 urlLigneE = url_SNCF + 'liste-des-lignes-electrifiees/records'
 fetch_and_insert_data(db, "sncfLigneE", urlLigneE)
 
-# Example usage for sncf_l_admin collection
 url_l_admin = url_SNCF + 'lignes-par-region-administrative/records'
 fetch_and_insert_data(db, "sncf_l_admin", url_l_admin)
 
-# Example usage for sncfLigneT collection
 urlLigneT = url_SNCF + 'lignes-par-type/records'
 fetch_and_insert_data(db, "sncfLigneT", urlLigneT)
