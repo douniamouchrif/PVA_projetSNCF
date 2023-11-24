@@ -29,24 +29,26 @@ def build_hierarchical_dataframe(df, levels, value_column, color_columns=None):
         if i < len(levels) - 1:
             df_tree['parent'] = dfg[levels[i+1]].copy()
         else:
-            df_tree['parent'] = 'total'
+            df_tree['parent'] = 'ACCIDENTS SNCF'
         df_tree['value'] = dfg[value_column]
         df_all_trees = df_all_trees.append(df_tree, ignore_index=True)
-    total = pd.Series(dict(id='total', parent='',
+    total = pd.Series(dict(id='ACCIDENTS SNCF', parent='',
                               value=df[value_column].sum()))
     df_all_trees = df_all_trees.append(total, ignore_index=True)
     return df_all_trees
 
 df_all_trees = build_hierarchical_dataframe(df, levels, value_column)
 
+marker_colors = ['blue', 'green', 'red', 'purple', 'yellow', 'pink', 'grey', 'orange', 'cyan', 'magenta', 'brown', 'teal', 'lime', 'indigo', 'maroon', 'olive', 'navy', 'aquamarine', 'orchid', 'slategray']
 fig = go.Figure(go.Sunburst(
     labels=df_all_trees['id'],
     parents=df_all_trees['parent'],
     values=df_all_trees['value'],
     branchvalues='total',
     hovertemplate='<b>%{label} </b> <br> Count: %{value}',
-    maxdepth=2)
-    )
+    maxdepth=2,
+    marker=dict(colors=marker_colors),
+))
 fig.update_layout(margin=dict(t=15, b=15, r=15, l=15))
 fig.show()
 
