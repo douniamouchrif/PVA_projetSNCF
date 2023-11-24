@@ -1,7 +1,8 @@
 from dash import Dash, dcc, html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
+import dash_bootstrap_components as dbc
 
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Définir les options pour les visualisations
 visualisations = {f'vis{i}': f'Visualisation {i}' for i in range(1, 9)}
@@ -40,12 +41,12 @@ app.layout = html.Div(style={'backgroundColor': '#800000', 'color': 'white', 'he
 
     # Première ligne de questions
     html.Div([
-        dcc.Link(question, href=f'/{visualisation_id}', style=common_style) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#800080', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
 
     # Deuxième ligne de questions
     html.Div([
-        dcc.Link(question, href=f'/{visualisation_id}', style=common_style) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#800080', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
 
     # Contenu de la visualisation
@@ -56,18 +57,37 @@ app.layout = html.Div(style={'backgroundColor': '#800000', 'color': 'white', 'he
     html.Div(
         noms := ["ABARKAN Suhaila, ", "MOUCHRIF Dounia, ", "ROMAN Karina, ", "TISSANDIER Mathilde"],
         style={'position': 'absolute', 'top': '20px', 'right': '20px', 'textAlign': 'center'}
+    ),
+    
+    # Fenêtre modale "Coming Soon"
+    dbc.Modal(
+        [
+            dbc.ModalHeader("Coming Soon"),
+            dbc.ModalBody("La visualisation sélectionnée sera bientôt disponible."),
+            dbc.ModalFooter(
+                dbc.Button("Fermer", id="close-modal", className="ml-auto")
+            ),
+        ],
+        id="coming-soon-modal",
+        centered=True,
+        is_open=False  # Initialisation à fermé
     )
 ])
-'''
+
 # Gérer le changement d'URL pour afficher la bonne visualisation
-@app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
-def display_page(pathname):
+@app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
+              [Input('url', 'pathname'), Input("close-modal", "n_clicks")],
+              [State("coming-soon-modal", "is_open")])
+def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
-        return "Bon retour sur notre dashboard"
+        return "Bon retour sur notre dashboard", is_open
     else:
         visualisation_id = pathname.replace('/', '')
-        return f"Visualisation sélectionnée : {visualisations.get(visualisation_id, 'Inconnue')}"
+        if visualisation_id in visualisations:
+            return f"Visualisation sélectionnée : {visualisations[visualisation_id]}", not is_open
+        else:
+            return "Inconnue", is_open
 
-'''
 if __name__ == '__main__':
     app.run_server(debug=True)
+
