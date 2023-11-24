@@ -2,60 +2,37 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from pymongo import MongoClient
-from ipywidgets import interactive, IntRangeSlider
-from IPython.display import display, clear_output
 
 # Connexion à la base de données MongoDB
 client = MongoClient('localhost', 27017)
-db = client['projetSNCF']
-collection = db['sncf1522']
+db = client['projetSNCF']   
+collection = db['sncf23']
 
 # Récupération des données depuis MongoDB
-cursor = collection.find({}, {'region': 1, 'origine': 1, 'niveau_gravite': 1, 'date': 1})
+cursor = collection.find({}, {'region': 1, 'origine': 1, 'gravite_epsf': 1})
 df = pd.DataFrame(list(cursor))
 
-df['year'] = pd.to_datetime(df['date']).dt.year
-
-# Convert 'niveau_gravite' column to numeric
-df['niveau_gravite'] = pd.to_numeric(df['niveau_gravite'], errors='coerce')
-
-# Get the top 5 regions and incident types by the most incidents
+# Les 5 principales régions et types d'incidents avec le plus d'incidents
 top_regions = df['region'].value_counts().nlargest(5).index
 top_types = df['origine'].value_counts().nlargest(5).index
 
-# Create a RangeSlider for selecting years
-years_range_slider = IntRangeSlider(
-    value=[df['year'].min(), df['year'].max()],
-    min=df['year'].min(),
-    max=df['year'].max(),
-    step=1,
-    description='Years:',
-    continuous_update=False,
-    orientation='horizontal',
-)
+# Les données pour les principales régions et types
+top_data = df[df['region'].isin(top_regions) & df['origine'].isin(top_types)]
 
-# Function to update the plot based on the selected years
-def update_plot(years):
-    selected_data = df[(df['year'] >= years[0]) & (df['year'] <= years[1])]
-    top_data = selected_data[selected_data['region'].isin(top_regions) & selected_data['origine'].isin(top_types)]
+# Nouveau dataframe avec la gravité moyenne pour chaque région et type d'incident
+mean_gravity_df = top_data.groupby(['region', 'origine'])['gravite_epsf'].mean().unstack()
 
-    mean_gravity_df = top_data.groupby(['region', 'origine'])['niveau_gravite'].mean().unstack()
-    mean_gravity_df = mean_gravity_df[mean_gravity_df.sum().sort_values(ascending=False).index]
-    mean_gravity_df = mean_gravity_df.loc[mean_gravity_df.sum(axis=1).sort_values(ascending=False).index]
+# Trier les données par le nombre d'incidents pour les régions et les types d'incidents
+mean_gravity_df = mean_gravity_df[mean_gravity_df.sum().sort_values(ascending=False).index]
+mean_gravity_df = mean_gravity_df.loc[mean_gravity_df.sum(axis=1).sort_values(ascending=False).index]
 
-    # Clear the previous output
-    clear_output(wait=True)
+# Gestion des couleurs
+sns.set_palette("husl")
+ax = mean_gravity_df.plot(kind='bar', figsize=(12, 8))
+ax.set_xlabel('Région')
+ax.set_ylabel('Gravité Moyenne')
+ax.set_title('Gravité Moyenne des 5 Principaux Types d\'Incidents dans les 5 Principales Régions')
 
-    # Create a new figure and axis
-    fig, ax = plt.subplots(figsize=(12, 8))
-    mean_gravity_df.plot(kind='bar', ax=ax)
-    ax.set_xlabel('Region')
-    ax.set_ylabel('Mean Gravity')
-    ax.set_title('Mean Gravity of Top 5 Incident Types in Top 5 Regions')
-    ax.legend(title='Incident Type', bbox_to_anchor=(1, 1), loc='upper left')
+ax.legend(title='Type d\'Incident', bbox_to_anchor=(1, 1), loc='upper left')
 
-# Create an interactive widget
-interactive_plot = interactive(update_plot, years=years_range_slider)
-
-# Display the interactive widget
-display(interactive_plot)
+plt.show()
