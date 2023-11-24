@@ -58,7 +58,7 @@ app.layout = html.Div(style={'backgroundColor': '#800000', 'color': 'white', 'he
         style={'position': 'absolute', 'top': '20px', 'right': '20px', 'textAlign': 'center'}
     )
 ])
-
+'''
 # Gérer le changement d'URL pour afficher la bonne visualisation
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def display_page(pathname):
@@ -68,6 +68,6 @@ def display_page(pathname):
         visualisation_id = pathname.replace('/', '')
         return f"Visualisation sélectionnée : {visualisations.get(visualisation_id, 'Inconnue')}"
 
-
+'''
 if __name__ == '__main__':
     app.run_server(debug=True)
