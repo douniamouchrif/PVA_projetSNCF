@@ -1,5 +1,5 @@
 import pandas as pd
-from connect import db
+from data.connect import db
 
 
 def get_data_barplot_2023():
