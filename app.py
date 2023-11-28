@@ -19,34 +19,19 @@ questions = [
     "Comment des conditions météorologiques particulières, comme le vent et la température, peuvent influencer le nombre d'accidents dans une région ?"
 ]
 
-# Styles communs
-common_style = {
-    'fontSize': 25,
-    'margin': '20px',
-    'padding': '10px',
-    'border': '5px double white',
-    'backgroundColor': '#800080',
-    'color': 'white',
-    'width': '300px',
-    'height': '300px',
-    'text-align': 'center',
-    'verticalAlign': 'middle',
-    'textDecoration': 'none',
-}
-
 # Définir la mise en page du dashboard
-app.layout = html.Div(style={'backgroundColor': '#800000', 'color': 'white', 'height': '100vh'}, children=[
+app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
     # Titre de la page de garde
     html.H1("Bienvenue sur notre Dashboard", style={'textAlign': 'center'}),
 
     # Première ligne de questions
     html.Div([
-        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#800080', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
 
     # Deuxième ligne de questions
     html.Div([
-        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#800080', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
 
     # Contenu de la visualisation
@@ -90,4 +75,3 @@ def display_page_and_modal(pathname, n, is_open):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
