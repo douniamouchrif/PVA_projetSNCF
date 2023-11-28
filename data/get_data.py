@@ -25,3 +25,30 @@ def get_data_barplot_2023():
     mean_gravity_df = mean_gravity_df.loc[mean_gravity_df.sum(axis=1).sort_values(ascending=False).index]
 
     return mean_gravity_df
+
+def hierarchical_dataframe_sunburst(df, levels, value_column, color_columns=None):
+    cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {'niveau_gravite': 1, 'origine': 1, '_id': 0})
+    df = pd.DataFrame(list(cursor))
+    df = df.groupby(['niveau_gravite', 'origine']).size().reset_index(name='count')
+
+    # Noms de colonnes et niveaux adaptés à votre ensemble de données
+    levels = ['origine', 'niveau_gravite']
+    value_column = 'count'
+    df_all_trees = pd.DataFrame(columns=['id', 'parent', 'value'])
+    for i, level in enumerate(levels):
+        df_tree = pd.DataFrame(columns=['id', 'parent', 'value'])
+        dfg = df.groupby(levels[i:]).sum()
+        print(dfg)
+        dfg = dfg.reset_index()
+        df_tree['id'] = dfg[level].copy()
+        print(df_tree)
+        if i < len(levels) - 1:
+            df_tree['parent'] = dfg[levels[i+1]].copy()
+        else:
+            df_tree['parent'] = 'ACCIDENTS SNCF'
+        df_tree['value'] = dfg[value_column]
+        df_all_trees = df_all_trees.append(df_tree, ignore_index=True)
+    total = pd.Series(dict(id='ACCIDENTS SNCF', parent='',
+                              value=df[value_column].sum()))
+    df_all_trees = df_all_trees.append(total, ignore_index=True)
+    return df_all_trees
