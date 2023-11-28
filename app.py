@@ -61,9 +61,9 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'he
 
 # Gérer le changement d'URL pour afficher la bonne visualisation
 @app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
-              [Input('url', 'pathname'), Input("close-modal", "n_clicks")],
-              [State("coming-soon-modal", "is_open")])
-def display_page_and_modal(pathname, n, is_open):
+              [Input('url', 'pathname'), Input("close-modal", "n_clicks")])
+def display_page_and_modal(pathname, n):
+    is_open = False
     if pathname is None or pathname == '/':
         return "Bon retour sur notre dashboard", is_open
     else:
