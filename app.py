@@ -66,6 +66,10 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'he
 def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return "Bon retour sur notre dashboard", is_open
+    if pathname == '/vis5':
+        return [
+            html.H1('Cooming soon'), is_open
+        ]
     else:
         visualisation_id = pathname.replace('/', '')
         if visualisation_id in visualisations:
