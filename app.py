@@ -1,6 +1,7 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
+from visus.scatterplot import build_scatter
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -41,14 +42,16 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'he
     # Noms en haut à droite
     html.Div(
         noms := ["ABARKAN Suhaila, ", "MOUCHRIF Dounia, ", "ROMAN Karina, ", "TISSANDIER Mathilde"],
-        style={'position': 'absolute', 'top': '20px', 'right': '20px', 'textAlign': 'center'}
+        style={'position': 'absolute', 'top': '20px',
+               'right': '20px', 'textAlign': 'center'}
     ),
-    
+
     # Fenêtre modale "Coming Soon"
     dbc.Modal(
         [
             dbc.ModalHeader("Coming Soon"),
-            dbc.ModalBody("La visualisation sélectionnée sera bientôt disponible."),
+            dbc.ModalBody(
+                "La visualisation sélectionnée sera bientôt disponible."),
             dbc.ModalFooter(
                 dbc.Button("Fermer", id="close-modal", className="ml-auto")
             ),
@@ -60,12 +63,17 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'he
 ])
 
 # Gérer le changement d'URL pour afficher la bonne visualisation
+
+
 @app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
               [Input('url', 'pathname'), Input("close-modal", "n_clicks")],
               [State("coming-soon-modal", "is_open")])
 def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return "Bon retour sur notre dashboard", is_open
+    if pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
+        scatter_content = build_scatter()
+        return [dcc.Graph(figure=scatter_content), is_open]
     if pathname == '/vis5':
         return [
             html.H1('Cooming soon'), is_open
@@ -76,6 +84,7 @@ def display_page_and_modal(pathname, n, is_open):
             return f"Visualisation sélectionnée : {visualisations[visualisation_id]}", not is_open
         else:
             return "Inconnue", is_open
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
