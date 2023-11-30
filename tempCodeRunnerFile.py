@@ -1,3 +1,9 @@
+from dash import Dash, dcc, html
+from dash.dependencies import Input, Output, State
+import dash_bootstrap_components as dbc
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
 # Définir les options pour les visualisations
 visualisations = {f'vis{i}': f'Visualisation {i}' for i in range(1, 9)}
 
@@ -13,17 +19,56 @@ questions = [
     "Comment des conditions météorologiques particulières, comme le vent et la température, peuvent influencer le nombre d'accidents dans une région ?"
 ]
 
-# Styles communs
-common_style = {
-    'fontSize': 25,
-    'margin': '20px',
-    'padding': '10px',
-    'border': '5px double white',
-    'backgroundColor': '#800080',
-    'color': 'white',
-    'width': '300px',
-    'height': '300px',
-    'text-align': 'center',
-    'verticalAlign': 'middle',
-    'textDecoration': 'none',
-}
+# Définir la mise en page du dashboard
+app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
+    # Titre de la page de garde
+    html.H1("Bienvenue sur notre Dashboard", style={'textAlign': 'center'}),
+
+    # Première ligne de questions
+    html.Div([
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
+    ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
+
+    # Deuxième ligne de questions
+    html.Div([
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
+    ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
+
+    # Contenu de la visualisation
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content'),
+
+    # Noms en haut à droite
+    html.Div(
+        noms := ["ABARKAN Suhaila, ", "MOUCHRIF Dounia, ", "ROMAN Karina, ", "TISSANDIER Mathilde"],
+        style={'position': 'absolute', 'top': '20px', 'right': '20px', 'textAlign': 'center'}
+    ),
+    
+    # Fenêtre modale "Coming Soon"
+    dbc.Modal(
+        [
+            dbc.ModalHeader("Coming Soon"),
+            dbc.ModalBody("La visualisation sélectionnée sera bientôt disponible."),
+        ],
+        id="coming-soon-modal",
+        centered=True,
+        is_open=False  # Initialisation à fermé
+    )
+])
+
+# Gérer le changement d'URL pour afficher la bonne visualisation
+@app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
+              [Input('url', 'pathname'), Input("close-modal", "n_clicks")])
+def display_page_and_modal(pathname, n):
+    is_open = False
+    if pathname is None or pathname == '/':
+        return "Bon retour sur notre dashboard", is_open
+    else:
+        visualisation_id = pathname.replace('/', '')
+        if visualisation_id in visualisations:
+            return f"Visualisation sélectionnée : {visualisations[visualisation_id]}", not is_open
+        else:
+            return "Inconnue", is_open
+
+if __name__ == '__main__':
+    app.run_server(debug=True)

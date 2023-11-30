@@ -1,8 +1,7 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
-from pymongo import MongoClient
-from bam import create_bam_visualization  # Assurez-vous que le nom du module/fonction est correct
+from visus.bam import box_plot
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -21,46 +20,23 @@ questions = [
     "Comment des conditions météorologiques particulières, comme le vent et la température, peuvent influencer le nombre d'accidents dans une région ?"
 ]
 
-# Styles communs
-common_style = {
-    'fontSize': 25,
-    'margin': '20px',
-    'padding': '10px',
-    'border': '5px double white',
-    'backgroundColor': '#800080',
-    'color': 'white',
-    'width': '300px',
-    'height': '300px',
-    'text-align': 'center',
-    'verticalAlign': 'middle',
-    'textDecoration': 'none',
-}
-
-# Connexion à MongoDB
-client = MongoClient('localhost', 27017)
-db = client['projetSNCF']
-
-# Récupération des données depuis MongoDB
-cursor = db.sncf1522.find({})
-data = list(cursor)
-
 # Définir la mise en page du dashboard
-app.layout = html.Div(style={'backgroundColor': '#800000', 'color': 'white', 'height': '100vh'}, children=[
+app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
     # Titre de la page de garde
     html.H1("Bienvenue sur notre Dashboard", style={'textAlign': 'center'}),
 
     # Première ligne de questions
     html.Div([
-        dcc.Link(question, href=f'/{visualisation_id}', style={**common_style, 'fontSize': min(25, max(15, 400 // len(question)))}) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
 
     # Deuxième ligne de questions
     html.Div([
-        dcc.Link(question, href=f'/{visualisation_id}', style={**common_style, 'fontSize': min(25, max(15, 400 // len(question)))}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
+        dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
 
     # Contenu de la visualisation
-    dcc.Location(id='url', refresh=False),
+    dcc.Location(id='url', refresh=True),
     html.Div(id='page-content'),
 
     # Noms en haut à droite
@@ -91,15 +67,20 @@ app.layout = html.Div(style={'backgroundColor': '#800000', 'color': 'white', 'he
 def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return "Bon retour sur notre dashboard", is_open
+    if pathname == '/vis1':
+        return [
+            html.Div([
+                box_plot()
+            ]), is_open
+        ]
     else:
         visualisation_id = pathname.replace('/', '')
         if visualisation_id in visualisations:
-            if visualisation_id == 'vis1':
-                return create_bam_visualization(data), not is_open
-            else:
-                return f"Visualisation sélectionnée : {visualisations[visualisation_id]}", is_open
+            return f"Visualisation sélectionnée : {visualisations[visualisation_id]}", not is_open
         else:
             return "Inconnue", is_open
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
