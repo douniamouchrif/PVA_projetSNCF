@@ -2,6 +2,7 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from visus.scatterplot import build_scatter
+from visus.bam import create_boxplot
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -71,13 +72,12 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'he
 def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return "Bon retour sur notre dashboard", is_open
-    if pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis1':  # Changer le chemin en fonction de votre configuration
+        boxplot_content = create_boxplot()
+        return [dcc.Graph(figure=boxplot_content), is_open]
+    elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
         scatter_content = build_scatter()
         return [dcc.Graph(figure=scatter_content), is_open]
-    if pathname == '/vis5':
-        return [
-            html.H1('Cooming soon'), is_open
-        ]
     else:
         visualisation_id = pathname.replace('/', '')
         if visualisation_id in visualisations:

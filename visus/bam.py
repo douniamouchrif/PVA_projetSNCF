@@ -20,7 +20,7 @@ cursor = db.sncf1522.find({})
 data = list(cursor)
 
 
-def create_boxplot(data):
+def create_boxplot():
     # Prétraitement des données
     df_filtered = filter_data(data)
     
@@ -54,4 +54,3 @@ def create_boxplot(data):
         )
     fig.show()
 
-create_boxplot(data)
