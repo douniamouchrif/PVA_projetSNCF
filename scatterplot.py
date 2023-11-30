@@ -15,9 +15,10 @@ def get_data():
     return grouped_data
 
 
-df = get_data()
-df['Mois'] = df['Mois'].dt.strftime('%Y-%m')
+def build_scatter():
+    df = get_data()
+    df['Mois'] = df['Mois'].dt.strftime('%Y-%m')
 
-fig = px.scatter(df, x='Mois', y='gravite_epsf',
-                 title='Gravité moyenne par mois', color='gravite_epsf', size='gravite_epsf')
-fig.show()
+    fig = px.scatter(df, x='Mois', y='gravite_epsf',
+                     title='Gravité moyenne par mois', color='gravite_epsf', size='gravite_epsf')
+    fig.show()
