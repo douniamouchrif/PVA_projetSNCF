@@ -32,7 +32,7 @@ def get_data_barplot_2023():
     return mean_gravity_df
 
 
-def hierarchical_dataframe_sunburst():
+def get_data_sunburst():
     cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {
                               'niveau_gravite': 1, 'origine': 1, '_id': 0})
     df = pd.DataFrame(list(cursor))
@@ -66,3 +66,14 @@ def get_data_scatterplot():
     df['Mois'] = df['date'].dt.to_period('M')
     grouped_data = df.groupby('Mois')['gravite_epsf'].mean().reset_index()
     return grouped_data
+
+def get_data_boxplot():
+    result = db.sncf1522.find()
+    df = pd.DataFrame(result)
+    df['date'] = pd.to_datetime(df['date'], errors='coerce')  # Conversion en datetime
+    df['year'] = df['date'].dt.strftime('%Y')
+
+    # Filtrage des lignes avec des valeurs NaN dans les colonnes 'year' et 'origine'
+    df_filtered = df.dropna(subset=['year', 'origine'])
+
+    return df_filtered

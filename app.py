@@ -2,9 +2,9 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from visus.scatterplot import build_scatter
-from visus.bam import create_boxplot
+from visus.bam import build_boxplot
 from visus.sunburst import build_sunburst
-from data.get_data import hierarchical_dataframe_sunburst, get_data_scatterplot
+from data.get_data import get_data_sunburst, get_data_scatterplot, get_data_boxplot
 
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -76,13 +76,13 @@ def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return "Bon retour sur notre dashboard", is_open
     elif pathname == '/vis1':  # Changer le chemin en fonction de votre configuration
-        boxplot_content = create_boxplot()
+        boxplot_content = build_boxplot(get_data_boxplot())
         return [dcc.Graph(figure=boxplot_content), is_open]
     elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
         scatter_content = build_scatter(get_data_scatterplot())
         return [dcc.Graph(figure=scatter_content), is_open]
     elif pathname == '/vis4':  # Changer le chemin en fonction de votre configuration
-        sunburst_content = build_sunburst(hierarchical_dataframe_sunburst())
+        sunburst_content = build_sunburst(get_data_sunburst())
         return [dcc.Graph(figure=sunburst_content), is_open]
     else:
         visualisation_id = pathname.replace('/', '')

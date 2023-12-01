@@ -1,36 +1,15 @@
-import pandas as pd
-from pymongo import MongoClient
 import plotly.express as px
 import plotly.graph_objects as go
 
-def filter_data(data):
-    df = pd.DataFrame(data)
-    df['date'] = pd.to_datetime(df['date'], errors='coerce')  # Conversion en datetime
-    df['year'] = df['date'].dt.strftime('%Y')
-
-    # Filtrage des lignes avec des valeurs NaN dans les colonnes 'year' et 'origine'
-    df_filtered = df.dropna(subset=['year', 'origine'])
-
-    return df_filtered
-
-
-client = MongoClient('localhost', 27017)
-db = client['projetSNCF']
-cursor = db.sncf1522.find({})
-data = list(cursor)
-
-
-def create_boxplot():
-    # Prétraitement des données
-    df_filtered = filter_data(data)
-    
-    fig = px.box(df_filtered, x='year', y=df_filtered.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
+def build_boxplot(df):
+   
+    fig = px.box(df, x='year', y=df.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
                  title='Nombre d incidents par année',
-                 category_orders={'year': sorted(df_filtered['year'].unique())},
+                 category_orders={'year': sorted(df['year'].unique())},
                  animation_group='origine')
     fig.add_trace(go.Scatter(
             x=['2019', '2019'],
-            y=[0, df_filtered.groupby('year').cumcount().max() + 1],
+            y=[0, df.groupby('year').cumcount().max() + 1],
             mode="lines",
             line=dict(color="red", width=2, dash='dash'),
             showlegend=True,  # Afficher la légende pour cette trace
