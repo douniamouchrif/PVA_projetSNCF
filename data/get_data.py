@@ -45,6 +45,6 @@ def hierarchical_dataframe_sunburst():
             df_tree['parent'] = 'ACCIDENTS SNCF'
         df_tree['value'] = dfg[value_column]
         df_all_trees = pd.concat([df_all_trees, df_tree], ignore_index=True)
-    total = pd.Series(dict(id='ACCIDENTS SNCF', parent='', value=df[value_column].sum(numeric_only=True)))
+    total = pd.Series(dict(id='ACCIDENTS SNCF', parent='', value=df[value_column].sum()))
     df_all_trees = pd.concat([df_all_trees, total], ignore_index=True)
     return df_all_trees
