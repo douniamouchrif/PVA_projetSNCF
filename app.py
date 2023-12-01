@@ -3,6 +3,8 @@ from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from visus.scatterplot import build_scatter
 from visus.bam import create_boxplot
+from visus.sunburst import build_sunburst
+from data.get_data import hierarchical_dataframe_sunburst
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -78,6 +80,9 @@ def display_page_and_modal(pathname, n, is_open):
     elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
         scatter_content = build_scatter()
         return [dcc.Graph(figure=scatter_content), is_open]
+    elif pathname == '/vis4':  # Changer le chemin en fonction de votre configuration
+        sunburst_content = build_sunburst(hierarchical_dataframe_sunburst())
+        return [dcc.Graph(figure=sunburst_content), is_open]
     else:
         visualisation_id = pathname.replace('/', '')
         if visualisation_id in visualisations:
