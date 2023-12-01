@@ -6,17 +6,7 @@ client = MongoClient('localhost', 27017)
 db = client['projetSNCF']
 
 
-def get_data():
-    result = db.sncf23.find()
-    df = pd.DataFrame(result)
-    df['date'] = pd.to_datetime(df['date'])
-    df['Mois'] = df['date'].dt.to_period('M')
-    grouped_data = df.groupby('Mois')['gravite_epsf'].mean().reset_index()
-    return grouped_data
-
-
-def build_scatter():
-    df = get_data()
+def build_scatter(df):
     df['Mois'] = df['Mois'].dt.strftime('%Y-%m')
 
     fig = px.scatter(df, x='Mois', y='gravite_epsf',
