@@ -1,15 +1,15 @@
 import plotly.express as px
 import plotly.graph_objects as go
 
-def build_boxplot(df):
+def build_boxplot(data):
    
-    fig = px.box(df, x='year', y=df.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
+    fig = px.box(data, x='year', y=data.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
                  title='Nombre d incidents par année',
-                 category_orders={'year': sorted(df['year'].unique())},
+                 category_orders={'year': sorted(data['year'].unique())},
                  animation_group='origine')
     fig.add_trace(go.Scatter(
             x=['2019', '2019'],
-            y=[0, df.groupby('year').cumcount().max() + 1],
+            y=[0, data.groupby('year').cumcount().max() + 1],
             mode="lines",
             line=dict(color="red", width=2, dash='dash'),
             showlegend=True,  # Afficher la légende pour cette trace

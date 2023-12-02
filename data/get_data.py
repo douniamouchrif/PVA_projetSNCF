@@ -77,3 +77,12 @@ def get_data_boxplot():
     df_filtered = df.dropna(subset=['year', 'origine'])
 
     return df_filtered
+
+def get_data_lineplot():
+    result = db.sncf1522.find()
+    df = pd.DataFrame(result)
+    df['date'] = pd.to_datetime(df['date'], errors='coerce')  # Conversion en datetime
+    df['year'] = df['date'].dt.strftime('%Y')
+    df_filtered = df.dropna(subset=['year', 'origine', 'type_event'])
+
+    return df_filtered

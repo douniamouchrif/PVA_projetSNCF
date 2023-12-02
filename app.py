@@ -4,7 +4,8 @@ import dash_bootstrap_components as dbc
 from visus.scatterplot import build_scatter
 from visus.bam import build_boxplot
 from visus.sunburst import build_sunburst
-from data.get_data import get_data_sunburst, get_data_scatterplot, get_data_boxplot
+from visus.lineplot import build_lineplot
+from data.get_data import get_data_sunburst, get_data_scatterplot, get_data_boxplot, get_data_lineplot
 
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -81,6 +82,9 @@ def display_page_and_modal(pathname, n, is_open):
     elif pathname == '/vis2':
         scatter_content = build_scatter(get_data_scatterplot())
         return [dcc.Graph(figure=scatter_content), is_open]
+    elif pathname == '/vis3':
+        boxplot_content = build_lineplot(get_data_lineplot())
+        return [dcc.Graph(figure=boxplot_content), is_open]
     elif pathname == '/vis4':
         sunburst_content = build_sunburst(get_data_sunburst())
         return [dcc.Graph(figure=sunburst_content), is_open]
