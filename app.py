@@ -75,13 +75,13 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'he
 def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return "Bon retour sur notre dashboard", is_open
-    elif pathname == '/vis1':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis1':
         boxplot_content = build_boxplot(get_data_boxplot())
         return [dcc.Graph(figure=boxplot_content), is_open]
-    elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis2':
         scatter_content = build_scatter(get_data_scatterplot())
         return [dcc.Graph(figure=scatter_content), is_open]
-    elif pathname == '/vis4':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis4':
         sunburst_content = build_sunburst(get_data_sunburst())
         return [dcc.Graph(figure=sunburst_content), is_open]
     else:
