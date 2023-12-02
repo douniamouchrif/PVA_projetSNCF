@@ -3,12 +3,11 @@ import requests
 
 url_SNCF = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/'
 
-
 def fetch_and_insert_data(db, collection_name, url, limit=100):
     collection = db[collection_name]
     offset = 0
 
-    while True:
+    def fetch_data_and_insert(offset):
         payload = {'limit': limit, 'offset': offset}
         response = requests.get(url, params=payload)
 
@@ -16,16 +15,15 @@ def fetch_and_insert_data(db, collection_name, url, limit=100):
             data = response.json()
             collection.insert_many(data['results'])
             if len(data['results']) < limit:
-                break
+                return
             else:
-                offset += limit
+                fetch_data_and_insert(offset + limit)
 
+    fetch_data_and_insert(offset)
 
-# Provide the connection details
 hostname = 'localhost'
-port = 27017  # Default MongoDB port
+port = 27017  
 
-# Create a MongoClient instance
 client = MongoClient(hostname, port)
 
 db = client['projetSNCF']  # projetSNCF = database de notre projet
