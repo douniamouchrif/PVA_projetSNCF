@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 def build_boxplot(data):
    
     fig = px.box(data, x='year', y=data.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
-                 title='Nombre d incidents par année',
+                 title='Nombre d\'incidents par année',
                  category_orders={'year': sorted(data['year'].unique())},
                  animation_group='origine')
     fig.add_trace(go.Scatter(
@@ -21,7 +21,7 @@ def build_boxplot(data):
                 title=dict(text='Années', font=dict(size=18)),
                 tickfont=dict(size=18),
             ),
-            yaxis=dict(title=dict(text='Nombre d incidents', font=dict(size=22)),
+            yaxis=dict(title=dict(text='Nombre d\'incidents', font=dict(size=22)),
                        tickfont=dict(size=18),),
             legend=dict(
                 x=1.02,
