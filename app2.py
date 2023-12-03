@@ -6,7 +6,7 @@ from visus.scatterplot import build_scatter23, build_scatter1522
 from visus.bam import build_boxplot
 from visus.lineplot import build_lineplot
 from visus.sunburst import build_sunburst, build_dropdown_year
-from data.get_data import get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_year_scatter, get_data_barplot_1522, get_year, get_data_lineplot, get_year_barplot
+from data.get_data import get_data_boxplot, get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_year_scatter, get_data_barplot_1522, get_year, get_data_lineplot, get_year_barplot
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
