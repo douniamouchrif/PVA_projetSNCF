@@ -26,11 +26,21 @@ questions = [
 ]
 
 # Définir la mise en page du dashboard
-app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'min-height': '100vh'}, children=[
-    # Contenu de la visualisation
+app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
+    # Navbar
+    dbc.NavbarSimple(
+        children=[
+            dbc.NavItem(dbc.NavLink("Home", href="/")),
+            dbc.NavItem(dbc.NavLink("About", href="/about")),
+            # Ajouter d'autres liens ici si nécessaire pour d'autres pages
+        ],
+        color="primary",
+        dark=True,
+    ),
+    
+    # Contenu de la visualisation et autres éléments
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
-
     # Fenêtre modale "Coming Soon"
     dbc.Modal(
         [
@@ -66,7 +76,7 @@ home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'h
     html.Div(
         noms := ["ABARKAN Suhaila, ", "MOUCHRIF Dounia, ", "ROMAN Karina, ", "TISSANDIER Mathilde"],
         style={'position': 'absolute', 'top': '20px',
-               'right': '20px', 'textAlign': 'center'}
+               'left': '5px', 'textAlign': 'center'}
     )
 ])
 
@@ -79,6 +89,14 @@ home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'h
 def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return home_layout, is_open
+    elif pathname == '/about':
+        # Créer le contenu de la page "About"
+        return (
+            html.Div([
+                html.H1("About Page", style={'textAlign': 'center'}),
+                # Ajoute d'autres éléments pour la page "About" si nécessaire
+            ]),
+            is_open)
     elif pathname == '/vis1':  # Changer le chemin en fonction de votre configuration
         boxplot_content = build_boxplot(get_data_boxplot())
         figure_size = {'width': '100%', 'height': '750px'}
