@@ -1,11 +1,12 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
+from visus.barplot import barplot_1522, build_range_slider
 from visus.scatterplot import build_scatter23, build_scatter1522
 from visus.bam import build_boxplot
 from visus.lineplot import build_lineplot
 from visus.sunburst import build_sunburst, build_dropdown_year
-from data.get_data import get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_year_scatter, get_data_boxplot, get_year, get_data_lineplot
+from data.get_data import get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_year_scatter, get_data_barplot_1522, get_year, get_data_lineplot, get_year_barplot
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -101,8 +102,18 @@ def display_page_and_modal(pathname, n, is_open):
         return [html.Div(children=[
                 html.H1("Visualisation Sunburst",
                         style={'textAlign': 'center'}),
-                html.Div([html.P("Sélectionner une année (par la suite on rajoutera la possiblité d'en séléctionner plusieurs) :"),
+                html.Div([html.P("Sélectionner un interval d'années (par la suite on rajoutera la possiblité d'en séléctionner plusieurs) :"),
                           dropdown,
+                          graph
+                          ])]), is_open]
+    elif pathname == '/vis5':  # Changer le chemin en fonction de votre configuration
+        rangeslider = build_range_slider(*get_year_barplot())
+        graph = dcc.Graph(id='barplot')
+        return [html.Div(children=[
+                html.H1("Visualisation Barplot",
+                        style={'textAlign': 'center'}),
+                html.Div([html.P("Sélectionner un interval d'années :"),
+                          rangeslider,
                           graph
                           ])]), is_open]
     else:
@@ -112,7 +123,7 @@ def display_page_and_modal(pathname, n, is_open):
         else:
             return "Inconnue", not is_open
 
-
+# Scatterplot
 @app.callback(Output(component_id='scatterplot', component_property='figure'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
@@ -126,7 +137,7 @@ def graph_update(dropdown_values):
         dataa = get_data_scatterplot1522(dropdown_values)
         return build_scatter1522(dataa)
 
-
+# Sunburst
 @app.callback(Output(component_id='sunburst', component_property='figure'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
@@ -135,6 +146,14 @@ def graph_update(dropdown_values):
     dataa = get_data_sunburst(dropdown_values)
     return build_sunburst(dataa)
 
+# Barplot
+@app.callback(Output(component_id='barplot', component_property='figure'),
+              [Input(component_id='rangeslider', component_property='value')])
+def graph_update(rangeslider_value):
+    if rangeslider_value is None:
+        rangeslider_value = get_year_barplot()  # Valeurs par défaut du slider
+    data = get_data_barplot_1522(rangeslider_value)
+    return barplot_1522(data)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
