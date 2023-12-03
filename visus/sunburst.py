@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+from dash import dcc
 
 
 def build_sunburst(df_all_trees):
@@ -13,5 +14,11 @@ def build_sunburst(df_all_trees):
         marker=dict(colors=marker_colors),
     ))
     fig.update_layout(margin=dict(t=15, b=15, r=15, l=15))
-    fig.show()
-    #return fig
+    #fig.show()
+    return fig
+
+def build_dropdown_year(item_list):
+    options = [{"label": x, "value": x} for x in item_list]
+    return dcc.Dropdown(id='dropdown',
+                        options=options,
+                        value=item_list[2])

@@ -31,5 +31,6 @@ def build_boxplot(data):
                 bgcolor='rgba(255, 255, 255, 0.5)',
             )
         )
-    fig.show()
+    #fig.show()
+    return fig
 

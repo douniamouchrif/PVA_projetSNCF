@@ -30,4 +30,5 @@ def build_lineplot(data):
         )
     )
     
-    fig.show()
+    #fig.show()
+    return fig
