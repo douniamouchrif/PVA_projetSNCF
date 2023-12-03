@@ -21,4 +21,5 @@ def build_dropdown_year(item_list):
     options = [{"label": x, "value": x} for x in item_list]
     return dcc.Dropdown(id='dropdown',
                         options=options,
-                        value=item_list[2])
+                        value=item_list[2],
+                        style={'color': 'black'})
