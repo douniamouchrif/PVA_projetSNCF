@@ -13,13 +13,12 @@ def fetch_and_insert_data(db, collection_name, url, limit=100):
     collection = db[collection_name]
     offset = 0
 
-    def fetch_data_and_insert(offset):
+    while True:
         payload = {'limit': limit, 'offset': offset}
         response = requests.get(url, params=payload)
 
         if response.status_code == 200:
             data = response.json()
-            print(data)
 
             # Select only the specified columns
             selected_data = [
@@ -36,12 +35,13 @@ def fetch_and_insert_data(db, collection_name, url, limit=100):
 
             collection.insert_many(selected_data)
 
+            offset += len(data['results'])
             if len(data['results']) < limit:
-                return
-            else:
-                fetch_data_and_insert(offset + limit)
+                break
 
-    fetch_data_and_insert(offset)
+        else:
+            print('Error fetching data:', response.status_code)
+            break
 
 url_météo = 'https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/donnees-synop-essentielles-omm/records'
 fetch_and_insert_data(db, "météo", url_météo)
