@@ -88,7 +88,7 @@ def display_page_and_modal(pathname, n, is_open):
     elif pathname == '/vis4':  # Changer le chemin en fonction de votre configuration
         dropdown = build_dropdown_year(get_year())
         graph = dcc.Graph(id='sunburst')
-        return [html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
+        return [html.Div(children=[
                 html.H1("Visualisation Sunburst", style={'textAlign': 'center'}),
                 html.Div([html.P("Sélectionner une année (par la suite on rajoutera la possiblité d'en séléctionner plusieurs) :"),
                 dropdown,
