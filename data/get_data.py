@@ -30,14 +30,21 @@ def get_data_barplot_1522(years):
 
 
 def get_data_sunburst(year):
-    cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {'niveau_gravite': 1, 'origine': 1,'date': 1, '_id': 0})
-    df = pd.DataFrame(list(cursor))
+    if year == '2023' : 
+        cursor = db.sncf23.find({'gravite_epsf': {'$ne': None, '$gt': 0, '$lt': 7}}, {'gravite_epsf': 1, 'origine': 1,'date': 1, '_id': 0})
+        df = pd.DataFrame(list(cursor))
+        gravite = 'gravite_epsf'
+    else : 
+        cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {'niveau_gravite': 1, 'origine': 1,'date': 1, '_id': 0})
+        df = pd.DataFrame(list(cursor))
+        gravite = 'niveau_gravite'
+        
     df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df['year'] = df['date'].dt.strftime('%Y')
     df = df.dropna(subset=['year'])
     df = df[df['year'] == year]
-    df = df.groupby(['niveau_gravite', 'origine']).size().reset_index(name='count')
-    levels = ['origine', 'niveau_gravite']
+    df = df.groupby([gravite, 'origine']).size().reset_index(name='count')
+    levels = ['origine', gravite]
     value_column = 'count'
     df_all_trees = pd.DataFrame(columns=['id', 'parent', 'value'])
     for i, level in enumerate(levels):
@@ -78,7 +85,7 @@ def get_data_scatterplot1522(year):
     return grouped_data
 
 
-def get_year_scatter():
+def get_years():
     cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {
                               'niveau_gravite': 1, 'origine': 1, 'date': 1, '_id': 0})
     df = pd.DataFrame(list(cursor))
@@ -113,16 +120,6 @@ def get_data_lineplot():
     df_filtered = df.dropna(subset=['year', 'origine', 'type_event'])
 
     return df_filtered
-
-
-def get_year_1522():
-    cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {'niveau_gravite': 1, 'origine': 1, 'date': 1, '_id': 0})
-    df = pd.DataFrame(list(cursor))
-    df['date'] = pd.to_datetime(df['date'], errors='coerce')  # Conversion en datetime
-    df['year'] = df['date'].dt.strftime('%Y')
-    df = df.dropna(subset=['year'])
-    return sorted(df['year'].unique())
-
 
 def get_year_barplot():
     cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {
