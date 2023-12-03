@@ -5,8 +5,8 @@ from visus.barplot import barplot_1522, build_range_slider
 from visus.scatterplot import build_scatter23, build_scatter1522
 from visus.bam import build_boxplot
 from visus.lineplot import build_lineplot
-from visus.sunburst import build_sunburst, build_dropdown_year
-from data.get_data import get_data_boxplot, get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_year_scatter, get_data_barplot_1522, get_year, get_data_lineplot, get_year_barplot
+from visus.sunburst import build_sunburst, build_dropdown_year, build_dropdown_year_multi 
+from data.get_data import get_data_boxplot, get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_year_scatter, get_data_barplot_1522, get_year_1522, get_data_lineplot, get_year_barplot
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
 
@@ -26,7 +26,7 @@ questions = [
 ]
 
 # Définir la mise en page du dashboard
-app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
+app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'min-height': '100vh'}, children=[
     # Contenu de la visualisation
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
@@ -97,15 +97,11 @@ def display_page_and_modal(pathname, n, is_open):
         boxplot_content = build_lineplot(get_data_lineplot())
         return [dcc.Graph(figure=boxplot_content), is_open]
     elif pathname == '/vis4':  # Changer le chemin en fonction de votre configuration
-        dropdown = build_dropdown_year(get_year())
-        graph = dcc.Graph(id='sunburst')
         return [html.Div(children=[
-                html.H1("Visualisation Sunburst",
-                        style={'textAlign': 'center'}),
-                html.Div([html.P("Sélectionner un interval d'années (par la suite on rajoutera la possiblité d'en séléctionner plusieurs) :"),
-                          dropdown,
-                          graph
-                          ])]), is_open]
+                html.H3(questions[4], style={'textAlign': 'center'}),
+                html.Div([html.P("Sélectionner une ou plusieurs années à afficher (par défaut toutes les années de 2016 à 2022 sont affichées) :"),
+                build_dropdown_year_multi(get_year_1522()),
+                html.Div(id='sunburst-container', children=[])])]), is_open]
     elif pathname == '/vis5':  # Changer le chemin en fonction de votre configuration
         rangeslider = build_range_slider(*get_year_barplot())
         graph = dcc.Graph(id='barplot')
@@ -138,13 +134,24 @@ def graph_update(dropdown_values):
         return build_scatter1522(dataa)
 
 # Sunburst
-@app.callback(Output(component_id='sunburst', component_property='figure'),
+@app.callback(Output(component_id='sunburst-container', component_property='children'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
-    if dropdown_values is None:
-        dropdown_values = get_year()[0]
-    dataa = get_data_sunburst(dropdown_values)
-    return build_sunburst(dataa)
+    if dropdown_values is None or len(dropdown_values) == 0:
+        return html.Div(children=[
+            html.H1("Veuillez selectionner au moins une année")])
+    graphs = []
+    for year in dropdown_values:
+        data = get_data_sunburst(year)
+        fig = build_sunburst(data)
+        graph = dcc.Graph(figure=fig)
+        # Ajouter le graphique avec un titre
+        graph_with_title = html.Div([
+            html.H3(f"Année {year}", style={'textAlign': 'center'}),
+            graph
+        ], style={'width': '30%', 'display': 'inline-block', 'margin': '1%', 'verticalAlign': 'top'})
+        graphs.append(graph_with_title)
+    return graphs
 
 # Barplot
 @app.callback(Output(component_id='barplot', component_property='figure'),
