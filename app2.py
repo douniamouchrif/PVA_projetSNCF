@@ -1,11 +1,11 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
-from visus.scatterplot import build_scatter
+from visus.scatterplot import build_scatter23, build_scatter1522
 from visus.bam import build_boxplot
 from visus.lineplot import build_lineplot
 from visus.sunburst import build_sunburst, build_dropdown_year
-from data.get_data import get_data_sunburst, get_data_scatterplot, get_data_boxplot, get_year, get_data_lineplot
+from data.get_data import get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_year_scatter, get_data_boxplot, get_year, get_data_lineplot
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -70,6 +70,8 @@ home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'h
 ])
 
 # Gérer le changement d'URL pour afficher la bonne visualisation
+
+
 @app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
               [Input('url', 'pathname'), Input("close-modal", "n_clicks")],
               [State("coming-soon-modal", "is_open")])
@@ -80,8 +82,15 @@ def display_page_and_modal(pathname, n, is_open):
         boxplot_content = build_boxplot(get_data_boxplot())
         return [dcc.Graph(figure=boxplot_content), is_open]
     elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
-        scatter_content = build_scatter(get_data_scatterplot())
-        return [dcc.Graph(figure=scatter_content), is_open]
+        dropdown = build_dropdown_year(get_year_scatter())
+        graph = dcc.Graph(id='scatterplot')
+        return [html.Div(children=[
+                html.H1("Visualisation Scatter",
+                        style={'textAlign': 'center'}),
+                html.Div([html.P("Sélectionner une année (par la suite on rajoutera la possiblité d'en séléctionner plusieurs) :"),
+                          dropdown,
+                          graph
+                          ])]), is_open]
     elif pathname == '/vis3':
         boxplot_content = build_lineplot(get_data_lineplot())
         return [dcc.Graph(figure=boxplot_content), is_open]
@@ -89,18 +98,34 @@ def display_page_and_modal(pathname, n, is_open):
         dropdown = build_dropdown_year(get_year())
         graph = dcc.Graph(id='sunburst')
         return [html.Div(children=[
-                html.H1("Visualisation Sunburst", style={'textAlign': 'center'}),
+                html.H1("Visualisation Sunburst",
+                        style={'textAlign': 'center'}),
                 html.Div([html.P("Sélectionner une année (par la suite on rajoutera la possiblité d'en séléctionner plusieurs) :"),
-                dropdown,
-                graph
-            ])]), is_open]
+                          dropdown,
+                          graph
+                          ])]), is_open]
     else:
         visualisation_id = pathname.replace('/', '')
         if visualisation_id in visualisations:
             return f"Visualisation sélectionnée : {visualisations[visualisation_id]}", not is_open
         else:
             return "Inconnue", not is_open
-        
+
+
+@app.callback(Output(component_id='scatterplot', component_property='figure'),
+              [Input(component_id='dropdown', component_property='value')])
+def graph_update(dropdown_values):
+    if dropdown_values is None:
+        dropdown_values = get_year_scatter()[0]
+    dataa = None
+    if dropdown_values == '2023':
+        dataa = get_data_scatterplot23()
+        return build_scatter23(dataa)
+    else:
+        dataa = get_data_scatterplot1522(dropdown_values)
+        return build_scatter1522(dataa)
+
+
 @app.callback(Output(component_id='sunburst', component_property='figure'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
@@ -108,6 +133,7 @@ def graph_update(dropdown_values):
         dropdown_values = get_year()[0]
     dataa = get_data_sunburst(dropdown_values)
     return build_sunburst(dataa)
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
