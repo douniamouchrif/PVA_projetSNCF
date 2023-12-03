@@ -81,7 +81,7 @@ def display_page_and_modal(pathname, n, is_open):
         return home_layout, is_open
     elif pathname == '/vis1':  # Changer le chemin en fonction de votre configuration
         boxplot_content = build_boxplot(get_data_boxplot())
-        figure_size = {'width': '100%', 'height': '600px'}
+        figure_size = {'width': '100%', 'height': '750px'}
         return [dcc.Graph(figure=boxplot_content, style = figure_size), is_open]
     elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
         dropdown = build_dropdown_year(get_year_scatter())
