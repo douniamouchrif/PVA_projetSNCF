@@ -2,7 +2,7 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from visus.visualisation import build_boxplot, build_scatter23, build_scatter1522, build_lineplot, build_sunburst, barplot_1522
-from visus.build_visu import build_dropdown_year, build_dropdown_year_multi, build_range_slider
+from visus.interaction import build_dropdown_year, build_dropdown_year_multi, build_range_slider
 from data.get_data import get_data_boxplot, get_data_scatterplot1522, get_data_scatterplot23, get_data_lineplot, get_data_sunburst, get_data_barplot_1522, get_years_dropdown, get_years_range_slider
 from about_us import about_content
 
