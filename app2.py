@@ -82,7 +82,6 @@ home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'h
 
 # Gérer le changement d'URL pour afficher la bonne visualisation
 
-
 @app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
               [Input('url', 'pathname'), Input("close-modal", "n_clicks")],
               [State("coming-soon-modal", "is_open")])
@@ -100,23 +99,31 @@ def display_page_and_modal(pathname, n, is_open):
     elif pathname == '/vis1':  # Changer le chemin en fonction de votre configuration
         boxplot_content = build_boxplot(get_data_boxplot())
         figure_size = {'width': '100%', 'height': '750px'}
-        return [dcc.Graph(figure=boxplot_content, style = figure_size), is_open]
+        graph = dcc.Graph(figure=boxplot_content, style = figure_size)
+        return [html.Div(children=[
+                    html.H3(questions[0],
+                            style={'textAlign': 'center'}),
+                    html.Div(graph)]), is_open]
     elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
         dropdown = build_dropdown_year(get_years())
         graph = dcc.Graph(id='scatterplot')
         return [html.Div(children=[
-                html.H1("Visualisation Scatter",
+                html.H3(questions[1],
                         style={'textAlign': 'center'}),
                 html.Div([html.P("Sélectionner une année (par la suite on rajoutera la possiblité d'en séléctionner plusieurs) :"),
                           dropdown,
                           graph
                           ])]), is_open]
     elif pathname == '/vis3':
-        boxplot_content = build_lineplot(get_data_lineplot())
-        return [dcc.Graph(figure=boxplot_content), is_open]
+        lineplot_content = build_lineplot(get_data_lineplot())
+        graph = dcc.Graph(figure=lineplot_content)
+        return [html.Div(children=[
+                html.H3(questions[2],
+                        style={'textAlign': 'center'}),
+                html.Div(graph)]), is_open]
     elif pathname == '/vis4':  # Changer le chemin en fonction de votre configuration
         return [html.Div(children=[
-                html.H3(questions[4], style={'textAlign': 'center'}),
+                html.H3(questions[3], style={'textAlign': 'center'}),
                 html.Div([html.P("Sélectionner une ou plusieurs années à afficher (par défaut toutes les années de 2016 à 2022 sont affichées) :"),
                 build_dropdown_year_multi(get_years()),
                 html.Div(id='sunburst-container', children=[])])]), is_open]
@@ -124,7 +131,7 @@ def display_page_and_modal(pathname, n, is_open):
         rangeslider = build_range_slider(*get_year_barplot())
         graph = dcc.Graph(id='barplot')
         return [html.Div(children=[
-                html.H1("Visualisation Barplot",
+                html.H3(questions[4],
                         style={'textAlign': 'center'}),
                 html.Div([html.P("Sélectionner un interval d'années :"),
                           rangeslider,
