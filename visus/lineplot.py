@@ -2,13 +2,10 @@ import plotly.express as px
 
 def build_lineplot(data):
    
-    # Grouping by year and origin, counting the number of events
     df_grouped = data.groupby(['year', 'origine']).size().reset_index(name='count')
 
-    # Adding a new column for cumulative count starting from 2015
     df_grouped['cumulative_count'] = df_grouped.groupby('origine')['count'].cumsum()
 
-    # Creating cumulative line plot
     fig = px.line(df_grouped, x='year', y='cumulative_count', color='origine',
                   labels={'cumulative_count': 'Nombre cumulatif d\'événements', 'year': 'Année'},
                   title='Évolution du nombre cumulatif d\'événements par origine au fil des années')
@@ -30,5 +27,4 @@ def build_lineplot(data):
         )
     )
     
-    #fig.show()
     return fig

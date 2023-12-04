@@ -10,7 +10,6 @@ def barplot_1522(data):
     )
     return fig
 
-
 def build_range_slider(min_val, max_val, default_values, marks_list):
     marks = {str(mark): str(mark) for mark in marks_list}
     return dcc.RangeSlider(

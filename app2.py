@@ -25,14 +25,12 @@ questions = [
     "Comment des conditions météorologiques particulières, comme le vent et la température, peuvent influencer le nombre d'accidents dans une région ?"
 ]
 
-# Définir la mise en page du dashboard
 app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'min-height': '100vh'}, children=[
     # Navbar
     dbc.NavbarSimple(
         children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.NavItem(dbc.NavLink("About", href="/about")),
-            # Ajouter d'autres liens ici si nécessaire pour d'autres pages
         ],
         color="primary",
         dark=True,
@@ -57,30 +55,23 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'mi
     )
 ])
 
-# Page d'accueil avec les questions
 home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
-    # Titre de la page de garde
+
     html.H1("Bienvenue sur notre Dashboard", style={'textAlign': 'center'}),
 
-    # Première ligne de questions
     html.Div([
         dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[:4], questions[:4])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
 
-    # Deuxième ligne de questions
     html.Div([
         dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
-
-    # Noms en haut à droite
     html.Div(
         noms := ["ABARKAN Suhaila, ", "MOUCHRIF Dounia, ", "ROMAN Karina, ", "TISSANDIER Mathilde"],
         style={'position': 'absolute', 'top': '20px',
                'left': '5px', 'textAlign': 'center'}
     )
 ])
-
-# Gérer le changement d'URL pour afficher la bonne visualisation
 
 @app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
               [Input('url', 'pathname'), Input("close-modal", "n_clicks")],
@@ -89,14 +80,12 @@ def display_page_and_modal(pathname, n, is_open):
     if pathname is None or pathname == '/':
         return home_layout, is_open
     elif pathname == '/about':
-        # Créer le contenu de la page "About"
         return (
             html.Div([
                 html.H1("About Page", style={'textAlign': 'center'}),
-                # Ajoute d'autres éléments pour la page "About" si nécessaire
             ]),
             is_open)
-    elif pathname == '/vis1':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis1': 
         boxplot_content = build_boxplot(get_data_boxplot())
         figure_size = {'width': '100%', 'height': '750px'}
         graph = dcc.Graph(figure=boxplot_content, style = figure_size)
@@ -104,7 +93,7 @@ def display_page_and_modal(pathname, n, is_open):
                     html.H3(questions[0],
                             style={'textAlign': 'center'}),
                     html.Div(graph)]), is_open]
-    elif pathname == '/vis2':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis2':  
         dropdown = build_dropdown_year(get_years())
         graph = dcc.Graph(id='scatterplot')
         return [html.Div(children=[
@@ -121,13 +110,13 @@ def display_page_and_modal(pathname, n, is_open):
                 html.H3(questions[2],
                         style={'textAlign': 'center'}),
                 html.Div(graph)]), is_open]
-    elif pathname == '/vis4':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis4':  
         return [html.Div(children=[
                 html.H3(questions[3], style={'textAlign': 'center'}),
                 html.Div([html.P("Sélectionner une ou plusieurs années à afficher (par défaut toutes les années de 2016 à 2022 sont affichées) :"),
                 build_dropdown_year_multi(get_years()),
                 html.Div(id='sunburst-container', children=[])])]), is_open]
-    elif pathname == '/vis5':  # Changer le chemin en fonction de votre configuration
+    elif pathname == '/vis5': 
         rangeslider = build_range_slider(*get_year_barplot())
         graph = dcc.Graph(id='barplot')
         return [html.Div(children=[

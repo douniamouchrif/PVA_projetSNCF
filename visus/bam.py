@@ -30,7 +30,6 @@ def build_boxplot(data):
                 font=dict(size=16),
                 bgcolor='rgba(255, 255, 255, 0.5)',
             )
-        )
-    #fig.show()
+    )
     return fig
 

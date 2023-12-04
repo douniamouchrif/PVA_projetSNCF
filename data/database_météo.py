@@ -2,12 +2,12 @@ from pymongo import MongoClient
 import requests
 
 hostname = 'localhost'
-port = 27017  # Default MongoDB port
-
-# Create a MongoClient instance
+port = 27017  
 client = MongoClient(hostname, port)
 
 db = client['Météo']
+
+# Pour le moment nous ne pouvons récupérer que 10 000 données car le site nous bloque les données suivantes
 
 def fetch_and_insert_data(db, collection_name, url, limit=100):
     collection = db[collection_name]
@@ -20,7 +20,6 @@ def fetch_and_insert_data(db, collection_name, url, limit=100):
         if response.status_code == 200:
             data = response.json()
 
-            # Select only the specified columns
             selected_data = [
                 {
                     'date': entry['date'],
