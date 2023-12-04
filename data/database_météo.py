@@ -1,14 +1,9 @@
-from pymongo import MongoClient
 import requests
-
-hostname = 'localhost'
-port = 27017  
-client = MongoClient(hostname, port)
+from connect import client
 
 db = client['Météo']
 
 # Pour le moment nous ne pouvons récupérer que 10 000 données car le site nous bloque les données suivantes
-
 def fetch_and_insert_data(db, collection_name, url, limit=100):
     collection = db[collection_name]
     offset = 0

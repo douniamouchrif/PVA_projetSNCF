@@ -1,12 +1,9 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
-from visus.barplot import barplot_1522, build_range_slider
-from visus.scatterplot import build_scatter23, build_scatter1522
-from visus.bam import build_boxplot
-from visus.lineplot import build_lineplot
-from visus.sunburst import build_sunburst, build_dropdown_year, build_dropdown_year_multi
-from data.get_data import get_data_boxplot, get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_years, get_data_barplot_1522, get_data_lineplot, get_year_barplot
+from visus.visualisation import build_boxplot, build_scatter23, build_scatter1522, build_lineplot, build_sunburst, barplot_1522
+from visus.build_visu import build_dropdown_year, build_dropdown_year_multi, build_range_slider
+from data.get_data import get_data_boxplot, get_data_scatterplot1522, get_data_scatterplot23, get_data_lineplot, get_data_sunburst, get_data_barplot_1522, get_years_dropdown, get_years_range_slider
 from about_us import about_content
 
 app = Dash(__name__, external_stylesheets=[
@@ -15,7 +12,7 @@ app = Dash(__name__, external_stylesheets=[
 # Définir les options pour les visualisations
 visualisations = {f'vis{i}': f'Visualisation {i}' for i in range(1, 9)}
 
-# Définir les questions
+# Questions pour chaque visualisation
 questions = [
     "Le nombre d’incidents varie-t-il drastiquement d’une année à l’autre ?",
     "Comment les causes d’incidents ont-elles évolué au cours de ces 8 dernières années?",
@@ -27,13 +24,15 @@ questions = [
     "Comment des conditions météorologiques particulières, comme le vent et la température, peuvent influencer le nombre d'accidents dans une région ?"
 ]
 
+# Mise en page du site
 app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'min-height': '100vh'}, children=[
-    # Navbar
+    # Barre de navigation
     dbc.NavbarSimple(
         children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.NavItem(dbc.NavLink("About", href="/about")),
         ],
+        brand = "ABARKAN Suhaila, MOUCHRIF Dounia, ROMAN Karina & TISSANDIER Mathilde",
         color="primary",
         dark=True,
     ),
@@ -41,6 +40,7 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'mi
     # Contenu de la visualisation et autres éléments
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
+
     # Fenêtre modale "Coming Soon"
     dbc.Modal(
         [
@@ -53,10 +53,11 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'mi
         ],
         id="coming-soon-modal",
         centered=True,
-        is_open=False  # Initialisation à fermé
+        is_open=False
     )
 ])
 
+# Mise en page d'accueil
 home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'height': '100vh'}, children=[
 
     html.H1("Bienvenue sur notre Dashboard", style={'textAlign': 'center'}),
@@ -68,11 +69,6 @@ home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'h
     html.Div([
         dcc.Link(question, href=f'/{visualisation_id}', style={'fontSize': min(25, max(15, 400 // len(question))), 'margin': '20px', 'padding': '10px', 'border': '5px double white', 'backgroundColor': '#003366', 'color': 'white', 'width': '300px', 'height': '300px', 'text-align': 'center', 'verticalAlign': 'middle', 'textDecoration': 'none'}) for visualisation_id, question in zip(list(visualisations.keys())[4:], questions[4:])
     ], style={'display': 'flex', 'justifyContent': 'space-evenly', 'height': '50%'}),
-    html.Div(
-        noms := ["ABARKAN Suhaila, ", "MOUCHRIF Dounia, ", "ROMAN Karina, ", "TISSANDIER Mathilde"],
-        style={'position': 'absolute', 'top': '20px',
-               'left': '5px', 'textAlign': 'center'}
-    )
 ])
 
 
@@ -84,6 +80,7 @@ def display_page_and_modal(pathname, n, is_open):
         return home_layout, is_open
     elif pathname == '/about':
         return about_content(), is_open
+    # Boxplot
     elif pathname == '/vis1':
         boxplot_content = build_boxplot(get_data_boxplot())
         figure_size = {'width': '100%', 'height': '750px'}
@@ -92,8 +89,9 @@ def display_page_and_modal(pathname, n, is_open):
             html.H3(questions[0],
                     style={'textAlign': 'center'}),
             html.Div(graph)]), is_open]
+    # Scatterplot
     elif pathname == '/vis2':
-        dropdown = build_dropdown_year(get_years())
+        dropdown = build_dropdown_year(get_years_dropdown())
         graph = dcc.Graph(id='scatterplot')
         return [html.Div(children=[
                 html.H3(questions[1],
@@ -102,6 +100,7 @@ def display_page_and_modal(pathname, n, is_open):
                           dropdown,
                           graph
                           ])]), is_open]
+    # Lineplot
     elif pathname == '/vis3':
         lineplot_content = build_lineplot(get_data_lineplot())
         graph = dcc.Graph(figure=lineplot_content)
@@ -109,14 +108,16 @@ def display_page_and_modal(pathname, n, is_open):
                 html.H3(questions[2],
                         style={'textAlign': 'center'}),
                 html.Div(graph)]), is_open]
+    # Sunburst
     elif pathname == '/vis4':
         return [html.Div(children=[
                 html.H3(questions[3], style={'textAlign': 'center'}),
-                html.Div([html.P("Sélectionner une ou plusieurs années à afficher (par défaut toutes les années de 2016 à 2022 sont affichées) :"),
-                          build_dropdown_year_multi(get_years()),
+                html.Div([html.P("Sélectionner une ou plusieurs années à afficher (par défaut toutes les années de 2016 à 2023 sont affichées) :"),
+                          build_dropdown_year_multi(get_years_dropdown()),
                           html.Div(id='sunburst-container', children=[])])]), is_open]
+    # Barplot
     elif pathname == '/vis5':
-        rangeslider = build_range_slider(*get_year_barplot())
+        rangeslider = build_range_slider(*get_years_range_slider())
         graph = dcc.Graph(id='barplot')
         return [html.Div(children=[
                 html.H3(questions[4],
@@ -133,13 +134,11 @@ def display_page_and_modal(pathname, n, is_open):
             return "Inconnue", not is_open
 
 # Scatterplot
-
-
 @app.callback(Output(component_id='scatterplot', component_property='figure'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
     if dropdown_values is None:
-        dropdown_values = get_years()[0]
+        dropdown_values = get_years_dropdown()[0]
     data = None
     if dropdown_values == '2023':
         data = get_data_scatterplot23()
@@ -149,8 +148,6 @@ def graph_update(dropdown_values):
         return build_scatter1522(data)
 
 # Sunburst
-
-
 @app.callback(Output(component_id='sunburst-container', component_property='children'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
@@ -170,13 +167,11 @@ def graph_update(dropdown_values):
     return graphs
 
 # Barplot
-
-
 @app.callback(Output(component_id='barplot', component_property='figure'),
               [Input(component_id='rangeslider', component_property='value')])
 def graph_update(rangeslider_value):
     if rangeslider_value is None:
-        rangeslider_value = get_year_barplot()  # Valeurs par défaut du slider
+        rangeslider_value = get_years_range_slider()  # Valeurs par défaut du slider
     data = get_data_barplot_1522(rangeslider_value)
     return barplot_1522(data)
 

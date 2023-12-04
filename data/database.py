@@ -1,5 +1,5 @@
-from pymongo import MongoClient
 import requests
+from connect import db
 
 url_SNCF = 'https://data.sncf.com/api/explore/v2.1/catalog/datasets/'
 
@@ -20,13 +20,6 @@ def fetch_and_insert_data(db, collection_name, url, limit=100):
                 fetch_data_and_insert(offset + limit)
 
     fetch_data_and_insert(offset)
-
-hostname = 'localhost'
-port = 27017  
-
-client = MongoClient(hostname, port)
-
-db = client['projetSNCF']  # projetSNCF = database de notre projet
 
 url23 = url_SNCF + 'incidents-de-securite-epsf/records'
 fetch_and_insert_data(db, "sncf23", url23)
