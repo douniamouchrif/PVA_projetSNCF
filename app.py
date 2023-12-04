@@ -5,11 +5,12 @@ from visus.barplot import barplot_1522, build_range_slider
 from visus.scatterplot import build_scatter23, build_scatter1522
 from visus.bam import build_boxplot
 from visus.lineplot import build_lineplot
-from visus.sunburst import build_sunburst, build_dropdown_year, build_dropdown_year_multi 
+from visus.sunburst import build_sunburst, build_dropdown_year, build_dropdown_year_multi
 from data.get_data import get_data_boxplot, get_data_sunburst, get_data_scatterplot23, get_data_scatterplot1522, get_years, get_data_barplot_1522, get_data_lineplot, get_year_barplot
 from about_us import about_content
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
+app = Dash(__name__, external_stylesheets=[
+           dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
 
 # Définir les options pour les visualisations
 visualisations = {f'vis{i}': f'Visualisation {i}' for i in range(1, 9)}
@@ -36,7 +37,7 @@ app.layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'mi
         color="primary",
         dark=True,
     ),
-    
+
     # Contenu de la visualisation et autres éléments
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
@@ -74,6 +75,7 @@ home_layout = html.Div(style={'backgroundColor': '#001F3F', 'color': 'white', 'h
     )
 ])
 
+
 @app.callback([Output('page-content', 'children'), Output("coming-soon-modal", "is_open")],
               [Input('url', 'pathname'), Input("close-modal", "n_clicks")],
               [State("coming-soon-modal", "is_open")])
@@ -82,15 +84,15 @@ def display_page_and_modal(pathname, n, is_open):
         return home_layout, is_open
     elif pathname == '/about':
         return about_content(), is_open
-    elif pathname == '/vis1': 
+    elif pathname == '/vis1':
         boxplot_content = build_boxplot(get_data_boxplot())
         figure_size = {'width': '100%', 'height': '750px'}
-        graph = dcc.Graph(figure=boxplot_content, style = figure_size)
+        graph = dcc.Graph(figure=boxplot_content, style=figure_size)
         return [html.Div(children=[
-                    html.H3(questions[0],
-                            style={'textAlign': 'center'}),
-                    html.Div(graph)]), is_open]
-    elif pathname == '/vis2':  
+            html.H3(questions[0],
+                    style={'textAlign': 'center'}),
+            html.Div(graph)]), is_open]
+    elif pathname == '/vis2':
         dropdown = build_dropdown_year(get_years())
         graph = dcc.Graph(id='scatterplot')
         return [html.Div(children=[
@@ -107,13 +109,13 @@ def display_page_and_modal(pathname, n, is_open):
                 html.H3(questions[2],
                         style={'textAlign': 'center'}),
                 html.Div(graph)]), is_open]
-    elif pathname == '/vis4':  
+    elif pathname == '/vis4':
         return [html.Div(children=[
                 html.H3(questions[3], style={'textAlign': 'center'}),
                 html.Div([html.P("Sélectionner une ou plusieurs années à afficher (par défaut toutes les années de 2016 à 2022 sont affichées) :"),
-                build_dropdown_year_multi(get_years()),
-                html.Div(id='sunburst-container', children=[])])]), is_open]
-    elif pathname == '/vis5': 
+                          build_dropdown_year_multi(get_years()),
+                          html.Div(id='sunburst-container', children=[])])]), is_open]
+    elif pathname == '/vis5':
         rangeslider = build_range_slider(*get_year_barplot())
         graph = dcc.Graph(id='barplot')
         return [html.Div(children=[
@@ -131,20 +133,24 @@ def display_page_and_modal(pathname, n, is_open):
             return "Inconnue", not is_open
 
 # Scatterplot
+
+
 @app.callback(Output(component_id='scatterplot', component_property='figure'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
     if dropdown_values is None:
         dropdown_values = get_years()[0]
-    dataa = None
+    data = None
     if dropdown_values == '2023':
-        dataa = get_data_scatterplot23()
-        return build_scatter23(dataa)
+        data = get_data_scatterplot23()
+        return build_scatter23(data)
     else:
-        dataa = get_data_scatterplot1522(dropdown_values)
-        return build_scatter1522(dataa)
+        data = get_data_scatterplot1522(dropdown_values)
+        return build_scatter1522(data)
 
 # Sunburst
+
+
 @app.callback(Output(component_id='sunburst-container', component_property='children'),
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
@@ -164,6 +170,8 @@ def graph_update(dropdown_values):
     return graphs
 
 # Barplot
+
+
 @app.callback(Output(component_id='barplot', component_property='figure'),
               [Input(component_id='rangeslider', component_property='value')])
 def graph_update(rangeslider_value):
@@ -171,6 +179,7 @@ def graph_update(rangeslider_value):
         rangeslider_value = get_year_barplot()  # Valeurs par défaut du slider
     data = get_data_barplot_1522(rangeslider_value)
     return barplot_1522(data)
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
