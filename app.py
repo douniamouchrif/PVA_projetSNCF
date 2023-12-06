@@ -3,7 +3,7 @@ from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 from visus.visualisation import build_boxplot, build_scatter, build_lineplot, build_sunburst, barplot_1522
 from visus.interaction import build_dropdown_year, build_dropdown_year_multi, build_range_slider
-from data.get_data import get_data_boxplot, get_data_scatterplot, get_data_lineplot, get_data_sunburst, get_data_barplot_1522, get_years_dropdown, get_years_range_slider
+from data.get_data import get_data_boxplot_t, get_data_scatterplot, get_data_lineplot, get_data_sunburst, get_data_barplot_1522, get_years_dropdown, get_years_range_slider
 from about_us import about_content
 
 app = Dash(__name__, external_stylesheets=[
@@ -82,7 +82,7 @@ def display_page_and_modal(pathname, n, is_open):
         return about_content(), is_open
     # Boxplot
     elif pathname == '/vis1':
-        boxplot_content = build_boxplot(get_data_boxplot())
+        boxplot_content = build_boxplot(get_data_boxplot_t())
         figure_size = {'width': '100%', 'height': '750px'}
         graph = dcc.Graph(figure=boxplot_content, style=figure_size)
         return [html.Div(children=[

@@ -3,16 +3,21 @@ from data.connect import db
 
 
 # Boxplot
-def get_data_boxplot():
-    result = db.sncf1522.find()
-    df = pd.DataFrame(result)
-    df['date'] = pd.to_datetime(
-        df['date'], errors='coerce')  # Conversion en datetime
-    df['year'] = df['date'].dt.strftime('%Y')
-    # Filtrage des lignes avec des valeurs NaN dans les colonnes 'year' et 'origine'
-    df_filtered = df.dropna(subset=['year', 'origine'])
+def get_data_boxplot_t():
+    result23 = db.sncf23.find()
+    df23 = pd.DataFrame(result23)
+    result1522 = db.sncf1522.find()
+    df1522 = pd.DataFrame(result1522)
+    df23['date'] = pd.to_datetime(
+        df23['date'], errors='coerce')  # Conversion en datetime
+    df23['year'] = df23['date'].dt.strftime('%Y')
+    df_filtered_23 = df23.dropna(subset=['year', 'origine'])
+    df1522['date'] = pd.to_datetime(
+        df1522['date'], errors='coerce')  # Conversion en datetime
+    df1522['year'] = df1522['date'].dt.strftime('%Y')
+    df_filtered_1522= df1522.dropna(subset=['year', 'origine'])
+    df_filtered = pd.concat([df_filtered_1522,df_filtered_23])
     return df_filtered
-
 
 # Scatterplot
 def get_data_scatterplot(year):
