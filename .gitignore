@@ -3,4 +3,6 @@ tempCodeRunnerFile.python
 __pycache__/about_us.cpython-310.pyc
 data/__pycache__/connect.cpython-310.pyc
 data/__pycache__/get_data.cpython-310.pyc
+visus/__pycache__/interaction.cpython-311.pyc
+visus/__pycache__/visualisation.cpython-311.pyc
 *.pyc
