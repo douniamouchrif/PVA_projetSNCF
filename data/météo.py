@@ -42,5 +42,4 @@ def fetch_and_insert_data(db, collection_name, url, dates_list_23, dates_list_15
 
     fetch_data_and_insert(offset)
 
-# Exécution de la fonction avec des messages de débogage
 fetch_and_insert_data(db, "météo", url, dates_list_23, dates_list_1522)
