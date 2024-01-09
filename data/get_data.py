@@ -42,13 +42,14 @@ def get_data_scatterplot(year):
 
 # Lineplot
 def get_data_lineplot():
-    result = db.sncf1522.find()
-    df = pd.DataFrame(result)
-    df['date'] = pd.to_datetime(
-        df['date'], errors='coerce')
+    cursor = db.sncf1522.find({'origine': {'$ne': None}, 'region': {'$ne': None}, 'date': {'$ne': None}}, {
+                            'origine': 1, 'region': 1, 'date': 1, '_id': 0})
+    data = list(cursor)
+    df = pd.DataFrame(data)
+    df['date'] = pd.to_datetime(df['date'], errors='coerce')  
     df['year'] = df['date'].dt.strftime('%Y')
-    df_filtered = df.dropna(subset=['year', 'origine', 'type_event'])
-    return df_filtered
+    df = df.dropna(subset=['year', 'origine'])
+    return df
 
 
 # Sunburst

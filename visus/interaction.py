@@ -1,4 +1,4 @@
-from dash import dcc
+from dash import dcc, html
 
 # Dropdown
 def build_dropdown_year(item_list):
@@ -28,3 +28,29 @@ def build_range_slider(min_val, max_val, default_values, marks_list):
         marks=marks,
         step=1,
     )
+
+#radio item
+def build_radioitems():
+    radioitems = dcc.RadioItems(
+        id='origine-radio',
+        options=[
+            {'label': 'Distinction des origines', 'value': 'distinct'},
+            {'label': 'All', 'value': 'all'},
+        ],
+        value='distinct',  # Valeur par défaut
+        inline=True,
+        style={'fontSize': 20, 'textAlign': 'center'}
+    )
+
+    cumulative_radioitem = dcc.RadioItems(
+        id='cumulative-radio',
+        options=[
+            {'label': 'Cumulatif', 'value': True},
+            {'label': 'Non Cumulatif', 'value': False},
+        ],
+        value=True,  # Valeur par défaut
+        inline=True,
+        style={'fontSize': 20, 'textAlign': 'center'}
+    )
+
+    return html.Div([radioitems, cumulative_radioitem])
