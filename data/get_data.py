@@ -15,11 +15,13 @@ def get_data_boxplot_t():
     df1522['date'] = pd.to_datetime(
         df1522['date'], errors='coerce')  # Conversion en datetime
     df1522['year'] = df1522['date'].dt.strftime('%Y')
-    df_filtered_1522= df1522.dropna(subset=['year', 'origine'])
-    df_filtered = pd.concat([df_filtered_1522,df_filtered_23])
+    df_filtered_1522 = df1522.dropna(subset=['year', 'origine'])
+    df_filtered = pd.concat([df_filtered_1522, df_filtered_23])
     return df_filtered
 
 # Scatterplot
+
+
 def get_data_scatterplot(year):
     if year == '2023':
         result = db.sncf23.find()
@@ -40,13 +42,25 @@ def get_data_scatterplot(year):
     return grouped_data
 
 
+def get_origines_count(year, month):
+    if year == '2023':
+        cursor = db.sncf23.find({'date': {'$regex': f'^{f"{year}-{month}"}'}}, {
+                                'origine': 1, '_id': 0})
+    else:
+        cursor = db.sncf1522.find({'date': {'$regex': f'^{f"{year}-{month}"}'}}, {
+                                  'origine': 1, '_id': 0})
+    df = pd.DataFrame(list(cursor))
+    origines_count = df['origine'].value_counts().to_dict()
+    return origines_count
+
+
 # Lineplot
 def get_data_lineplot():
     cursor = db.sncf1522.find({'origine': {'$ne': None}, 'region': {'$ne': None}, 'date': {'$ne': None}}, {
-                            'origine': 1, 'region': 1, 'date': 1, '_id': 0})
+        'origine': 1, 'region': 1, 'date': 1, '_id': 0})
     data = list(cursor)
     df = pd.DataFrame(data)
-    df['date'] = pd.to_datetime(df['date'], errors='coerce')  
+    df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df['year'] = df['date'].dt.strftime('%Y')
     df = df.dropna(subset=['year', 'origine'])
     return df

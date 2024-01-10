@@ -36,7 +36,7 @@ def build_boxplot(data):
     return fig
 
 
-# Scatter 2015-2022
+# Scatter
 def build_scatter(df, year):
     if year == '2023':
         gravite = 'gravite_epsf'
@@ -45,15 +45,19 @@ def build_scatter(df, year):
     df['Mois'] = df['Mois'].dt.strftime('%Y-%m')
     fig = px.scatter(df, x='Mois', y=gravite,
                      title=f'Gravité moyenne par mois', color=gravite, size=gravite)
+    fig.update_traces(marker=dict(size=12), selector=dict(mode='markers'))
+    fig.update_layout(clickmode='event+select', yaxis_title="Gravité")
     return fig
 
 
 # Lineplot
 def build_lineplot(df, selected_option, cumulative_mode):
-    incidents_par_annee = df.groupby(['year', 'origine']).size().reset_index(name='nombre_incidents')
-    
+    incidents_par_annee = df.groupby(
+        ['year', 'origine']).size().reset_index(name='nombre_incidents')
+
     if cumulative_mode:
-        incidents_par_annee['cumulative_incidents'] = incidents_par_annee.groupby('origine')['nombre_incidents'].cumsum()
+        incidents_par_annee['cumulative_incidents'] = incidents_par_annee.groupby(
+            'origine')['nombre_incidents'].cumsum()
         y_column = 'cumulative_incidents'
         title = 'Nombre cumulatif d\'incidents au cours des années'
     else:
@@ -61,41 +65,50 @@ def build_lineplot(df, selected_option, cumulative_mode):
         title = 'Nombre d\'incidents au cours des années'
 
     if selected_option == 'all':
-        aggregated_df = incidents_par_annee.groupby('year')[y_column].sum().reset_index()
+        aggregated_df = incidents_par_annee.groupby(
+            'year')[y_column].sum().reset_index()
         fig_line = px.line(aggregated_df, x='year', y=y_column, title=title,
                            labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
     else:
-        filtered_df_line = incidents_par_annee[incidents_par_annee['origine'].isin(df['origine'].unique())]
+        filtered_df_line = incidents_par_annee[incidents_par_annee['origine'].isin(
+            df['origine'].unique())]
         fig_line = px.line(filtered_df_line, x='year', y=y_column, color='origine',
                            title=title, labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
         fig_line.update_layout(showlegend=True)
 
-    fig_line.update_layout(yaxis=dict(showline=False, showgrid=False, zeroline=False))
+    fig_line.update_layout(yaxis=dict(
+        showline=False, showgrid=False, zeroline=False))
     return fig_line
 
+
 def build_heapmap(df, selected_option, click_data):
-    incidents_par_region_annee = df.groupby(['year', 'origine', 'region']).size().reset_index(name='nombre_incidents')
-    
+    incidents_par_region_annee = df.groupby(
+        ['year', 'origine', 'region']).size().reset_index(name='nombre_incidents')
+
     if click_data and 'points' in click_data and click_data['points']:
-        if selected_option == 'all' : 
+        if selected_option == 'all':
             fig_heatmap = px.imshow(incidents_par_region_annee.pivot_table(index='year', columns='region', values='nombre_incidents'),
-                                labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
-                                title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
-        else :
+                                    labels=dict(x="Régions", y="Années",
+                                                color="Nombre d'incidents"),
+                                    title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
+        else:
             clicked_origine = click_data['points'][0]['curveNumber']
-            filtered_df = incidents_par_region_annee[incidents_par_region_annee['origine'] == df['origine'].unique()[clicked_origine]]
+            filtered_df = incidents_par_region_annee[incidents_par_region_annee['origine'] == df['origine'].unique()[
+                clicked_origine]]
             clicked_origine_label = df['origine'].unique()[clicked_origine]
-        
+
             fig_heatmap = px.imshow(filtered_df.pivot_table(index='year', columns='region', values='nombre_incidents'),
-                                    labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
+                                    labels=dict(x="Régions", y="Années",
+                                                color="Nombre d'incidents"),
                                     title=f'Heatmap du nombre d\'incidents causés par {clicked_origine_label} par région au cours des années')
     else:
         fig_heatmap = px.imshow(incidents_par_region_annee.pivot_table(index='year', columns='region', values='nombre_incidents'),
-                                labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
+                                labels=dict(x="Régions", y="Années",
+                                            color="Nombre d'incidents"),
                                 title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
-        
+
     fig_heatmap.update_layout(xaxis=dict(showline=False, showgrid=False, zeroline=False),
-                            yaxis=dict(showline=False, showgrid=False, zeroline=False))
+                              yaxis=dict(showline=False, showgrid=False, zeroline=False))
     return fig_heatmap
 
 
