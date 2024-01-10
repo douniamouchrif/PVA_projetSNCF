@@ -34,7 +34,7 @@ Pymongo Version: 4.5.0
 
 ## Installation : 
 
-Pour obtenir toutes les extensions utilisées dans ce projet, veuillez exécuter cette commande : 
+Pour obtenir toutes les extensions utilisées dans ce projet, veuillez exécuter cette commande (attention, les versions ne seront pas les mêmes que celles utilisées pour coder ce projet): 
 
 ```bash 
 pip install -r requirements.txt
