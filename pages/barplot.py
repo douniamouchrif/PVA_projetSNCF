@@ -14,17 +14,20 @@ dash.register_page(__name__, question=question, external_stylesheets=[
 def layout():
     rangeslider = build_range_slider(*get_years_range_slider())
     graph = dcc.Graph(id='barplot')
+    apres = dbc.Button(
+        "Après", id="btn-apres1", color="primary", className="mr-1", style={'float': 'right', 'background-color': '#670907'})
     return [html.Div(children=[
         html.Div([
-            dbc.Button("Retour", id="btn-retour5", color="primary",
+            apres,
+            dbc.Button("Retour", id="btn-retour1", color="primary",
                        className="mr-1", style={'float': 'right', 'background-color': '#670907'}),
-            html.H3(question, style={'textAlign': 'center'}),
+            html.H3(question, style={'textAlign': 'center'})
         ]),
         html.Div([html.P("Sélectionner un interval d'années :"),
                   rangeslider,
                   graph
                   ])
-    ]), dcc.Location(id='url-redirect5')]
+    ]), dcc.Location(id='url-redirect1')]
 
 
 @callback(Output(component_id='barplot', component_property='figure'),
@@ -37,10 +40,12 @@ def graph_update(rangeslider_value):
 
 
 @callback(
-    Output("url-redirect5", "pathname"),
-    [Input("btn-retour5", "n_clicks")]
+    Output("url-redirect1", "pathname"),
+    [Input("btn-retour1", "n_clicks"),
+     Input("btn-apres1", "n_clicks")]
 )
-def retour_button_callback(n_clicks):
-    if n_clicks:
+def button_callback(n_clicks_retour, n_clicks_apres):
+    if n_clicks_retour:
         return '/visualisations'
-    raise dash.exceptions.PreventUpdate
+    elif n_clicks_apres:
+        return '/boxplot'
