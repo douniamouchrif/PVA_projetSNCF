@@ -30,25 +30,41 @@ Plotly Version: 5.18.0
 Pymongo Version: 4.5.0
 ```
 
-### Installation
+### Installation : 
 
 Pour obtenir toutes les extensions utilisées dans ce projet, veuillez exécuter cette commande : 
 
 ```bash 
-pip install -r requirements.txt```
+pip install -r requirements.txt
+```
 
-### Mise en place de la base de données
+### Mise en place de la base de données : 
 
 Une fois MongoDB et MongoDB Compass installés, vous pouvez télécharger les données se trouvant dans ```database.py```. 
 La [base de données de la météo](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/table/?sort=date&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJ0YyIsInNjaWVudGlmaWNEaXNwbGF5Ijp0cnVlLCJjb2xvciI6IiNGRjUxNUEifV0sInhBeGlzIjoiZGF0ZSIsIm1heHBvaW50cyI6IiIsInRpbWVzY2FsZSI6ImRheSIsInNvcnQiOiIiLCJjb25maWciOnsiZGF0YXNldCI6ImRvbm5lZXMtc3lub3AtZXNzZW50aWVsbGVzLW9tbSIsIm9wdGlvbnMiOnt9fX1dLCJkaXNwbGF5TGVnZW5kIjp0cnVlLCJhbGlnbk1vbnRoIjp0cnVlfQ%3D%3D
 ) étant très volumineuse, cette opération risque de prendre plusieurs heures.
 
-### Lancement de l'app
+### Lancement de l'app : 
 
 Une fois que les données ont été récupérées, vous pouvez lancer directement l'app : 
 
 ```bash 
-python app.py```
+python app.py
+```
+
+### Les différentes API : 
+
+Pour notre projet, nous utilisons 5 API, 4 provenant des données de la SNCF et la dernière provenant du site OpenDataSoft et contenant les observations météorologiques historiques en France.
+
+- [Incidents de sécurité (Evénements de sécurité remarquables - ESR) de janvier 2015 à décembre 2022](https://data.sncf.com/explore/dataset/incidents-securite/table/?sort=date)
+
+- [Incidents de sécurité (EPSF) depuis janvier 2023](https://data.sncf.com/explore/dataset/incidents-de-securite-epsf/table/?sort=date&calendarview=month&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJsaW5lIiwiZnVuYyI6IkFWRyIsInlBeGlzIjoiZ3Jhdml0ZV9lcHNmIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiI0ExMDA2QiJ9XSwieEF4aXMiOiJkYXRlIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoibW9udGgiLCJzb3J0IjoiIiwiY29uZmlnIjp7ImRhdGFzZXQiOiJpbmNpZGVudHMtZGUtc2VjdXJpdGUtZXBzZiIsIm9wdGlvbnMiOnsic29ydCI6ImRhdGUifX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZSwidGltZXNjYWxlIjoiIn0%3D)
+
+- [Liste des lignes électrifiées](https://data.sncf.com/explore/dataset/liste-des-lignes-electrifiees/table/)
+
+- [Lignes par type](https://data.sncf.com/explore/dataset/lignes-par-type/table/)
+
+- [Lignes par région administrative](https://data.sncf.com/explore/dataset/lignes-par-region-administrative/table/)
 
 
 
