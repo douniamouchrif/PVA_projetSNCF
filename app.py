@@ -56,6 +56,14 @@ def generate_sidebar(pathname):
                 pills=True,
                 id="sidebar-nav",
             ),
+            html.P("ABARKAN Suhaila", style={"color": "white",
+                   "font-size": "1.1rem", "margin-top": "100px"}),
+            html.P("MOUCHRIF Dounia", style={
+                   "color": "white", "font-size": "1.1rem"}),
+            html.P("ROMAN Karina", style={
+                   "color": "white", "font-size": "1.1rem"}),
+            html.P("TISSANDIER Mathilde", style={
+                   "color": "white", "font-size": "1.1rem"})
         ],
         style=SIDEBAR_STYLE,
     )
