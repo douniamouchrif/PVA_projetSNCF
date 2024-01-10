@@ -5,7 +5,7 @@ from visus.visualisation import build_lineplot, build_heapmap
 from visus.interaction import build_radioitems
 from data.get_data import get_data_lineplot
 
-question = "Comment le nombre d’incidents par gravité a-t-il évolué ces 8 dernières années ? Quelles sont les principales origines des incidents pour une gravité choisie ?"
+question = "Quelles sont les causes des accidents les plus récurrentes ?"
 
 dash.register_page(__name__, question=question, external_stylesheets=[
     dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)

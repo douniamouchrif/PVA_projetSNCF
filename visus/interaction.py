@@ -35,7 +35,7 @@ def build_radioitems():
         id='origine-radio',
         options=[
             {'label': 'Distinction des origines', 'value': 'distinct'},
-            {'label': 'All', 'value': 'all'},
+            {'label': 'Globale', 'value': 'all'},
         ],
         value='distinct',  # Valeur par défaut
         inline=True,
@@ -48,7 +48,7 @@ def build_radioitems():
             {'label': 'Cumulatif', 'value': True},
             {'label': 'Non Cumulatif', 'value': False},
         ],
-        value=True,  # Valeur par défaut
+        value=False,  # Valeur par défaut
         inline=True,
         style={'fontSize': 20, 'textAlign': 'center'}
     )
