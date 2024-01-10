@@ -34,7 +34,8 @@ Pymongo Version: 4.5.0
 
 Pour obtenir toutes les extensions utilisées dans ce projet, veuillez exécuter cette commande : 
 
-```pip install -r requirements.txt```
+```bash 
+pip install -r requirements.txt```
 
 ### Mise en place de la base de données
 
@@ -46,7 +47,8 @@ La [base de données de la météo](https://public.opendatasoft.com/explore/data
 
 Une fois que les données ont été récupérées, vous pouvez lancer directement l'app : 
 
-```python app.py```
+```bash 
+python app.py```
 
 
 
