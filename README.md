@@ -8,7 +8,7 @@ Utilisation de [Mongodb](hhttps://www.mongodb.com/fr-fr?utm_source=google&utm_ca
 
 Pour une expérience plus agréable, nous conseillons l'installation de [MongoDB Compass](https://www.mongodb.com/products/tools/compass) pour la lecture des données.
 
-__Python__ (3.10.4) est un langage de programmation polyvalent qui est célèbre pour sa lisibilité et sa facilité d'utilisation. Il possède une grande bibliothèque standard et prend en charge plusieurs paradigmes de programmation.
+[__Python (3.10.4)__](https://www.python.org)est un langage de programmation polyvalent qui est célèbre pour sa lisibilité et sa facilité d'utilisation. Il possède une grande bibliothèque standard et prend en charge plusieurs paradigmes de programmation.
 
 ### Extensions : 
 
@@ -20,7 +20,7 @@ __Python__ (3.10.4) est un langage de programmation polyvalent qui est célèbre
 
 - __Pymongo (4.5.0)__ est un pilote Python pour la base de données NoSQL MongoDB. Les applications Python peuvent interagir avec les bases de données MongoDB, ce qui simplifie le stockage et la récupération des données. MongoDB est célèbre pour sa capacité à être scalable, à être flexible et à stocker des documents de type JSON.
 
-### Versions de chaque extension utilisés pour le projet : 
+### Version de chaque extension utilisée pour le projet : 
 
 ```bash
 Python Version: 3.11.4
@@ -32,7 +32,7 @@ Pymongo Version: 4.5.0
 
 ### Installation
 
-Pour obtenir toutes les extensions utilisés dans le projet, veuillez exécuter cette commande : 
+Pour obtenir toutes les extensions utilisées dans ce projet, veuillez exécuter cette commande : 
 
 ```pip install -r requirements.txt```
 
