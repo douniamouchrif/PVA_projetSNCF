@@ -1,0 +1,12 @@
+from dash import html
+
+def get_text_below_sunburst():
+    return html.Div([
+        html.P("Rappelons que les niveaux de gravité des incidents vont de 1 (le moins grave) à 6 (le plus grave)."),
+        html.P("Ces sunburst représentent la répartition des incidents en fonction des gravités, puis lorsque nous cliquons sur une gravité, nous obtenons la répartition des incidents en fonction des causes pour la gravité séléctonnée. Grâce au dropdown nous avons la possibilité de séléctionner seulement les années qui nous intéressent, par défaut, au début toutes les années sont séléctonnées."),
+        html.P("Remarquons qu'il n'y a pas de sunburst pour l'année 2015, cela est expliqué par le fait que les gravités des incidents survenus en 2015 ne sont pas renseignés par le site de la sncf."),
+        html.P("En parcourant les sunbursts, nous avons pu nous rendre compte que les causes les plus réccurentes des incidents sont Réseau, Mobilité et Voyageur avec des gravités plus ou moins élevées, pouvant aller d'un petit excès de vitesse à un défaut de signalisation, un déraillement ou encore un accident de personne. Notons que dans le temps, les incidents de causes Réseau ont une légère tendence à être plus nombreux et aussi, la cause Voyageur occupe une place plus importante à partir de 2020 (l'année de la crise du covid-19, ce qui pourrait être une explication)."),
+        html.P("Parmis toutes les années, les incidents de niveau de gravité 1 et 2 sont très peu nombreux, voir inexistants pour la plupart des années. Les incidents associés à de tels gravités n'engagent pas la sécurité des passagers à l'intérieur ou extérieur du train."),
+        html.P("Ensuite, nous avons aussi pu remarquer à travers ces sunbursts que les incidents de gravités 4 sont majoritaires pour chaque année. Les causes principales associées à cette gravité sont les causes Réseau et Mobilité ainsi que Voyageur à partir de 2020."),
+        html.P("Enfin, l'année 2023 peut être considérée comme la plus dangereuse avec tous ces incidents (au nombre de 237) de gravité 4 au minimum. Nous observons durant cette année une forte augmentation des incidents de gravité 5. Les causes principales associées à la gravité 5 sont Accidents de personnes et Collision passage à niveau, qui sont des événements plutôt graves ce qui exlique un tel niveau de gravité."),
+        ], style={'margin-top': '20px', 'font-size': '16px'})
