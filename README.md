@@ -4,11 +4,14 @@ Bienvenue sur notre projet de visualisation analytique de master 1. Ce projet se
 
 Voici les versions de chaque outils que nous utilisons pour ce projet : 
 
+```bash
 Python Version: 3.11.4
 Pandas Version: 1.5.3
 Dash Version: 2.13.0
 Plotly Version: 5.18.0
 Pymongo Version: 4.5.0
+```
+
 
 Notre projet se présente sous la forme d’un dashboard où nous y trouvons toutes nos problématiques et puis lorsque nous cliquons sur l’une d’elles, la visualisation associée apparaît. 
 
