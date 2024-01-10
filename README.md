@@ -2,7 +2,13 @@
 
 Bienvenue sur notre projet de visualisation analytique de master 1. Ce projet se portera sur l'étude des incidents de la SNCF entre 2015 et 2023.
 
-Voici les versions de chaque outils que nous utilisons pour ce projet : 
+### Base de données :
+
+Utilisation de [Mongodb](hhttps://www.mongodb.com/fr-fr?utm_source=google&utm_campaign=search_gs_pl_evergreen_atlas_core_prosp-brand_gic-null_emea-fr_ps-all_desktop_fr_lead&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=p&utm_ad_campaign_id=20378068742&adgroup=154980288401&cq_cmp=20378068742&gad_source=1&gclid=Cj0KCQiAnfmsBhDfARIsAM7MKi2ujmjZBeZa1JV3HmlN5dzynEqpp4X-tKcM1gvnhnrEKFHWkFXRmVMaAnOYEALw_wcB) pour la récupération des données.
+
+Pour une expérience plus agréable, nous conseillons l'installation de [MongoDB Compass](https://www.mongodb.com/products/tools/compass) pour la lecture des données.
+
+### Versions de chaque outils utilisés pour le projet : 
 
 ```bash
 Python Version: 3.11.4
@@ -12,13 +18,3 @@ Plotly Version: 5.18.0
 Pymongo Version: 4.5.0
 ```
 
-
-Notre projet se présente sous la forme d’un dashboard où nous y trouvons toutes nos problématiques et puis lorsque nous cliquons sur l’une d’elles, la visualisation associée apparaît. 
-
-Avant de pouvoir lancer notre application en exécutant le fichier app.py, il faut d’abord commencer par lancer le fichier database.py afin de créer et récupérer la base de données. 
-
-En arrivant sur notre page d'accueil, on peut voir les différentes problématiques, à ce stade du projet, seulement les 5 premières ont commencé à être traitées. Pour celles qui ne le sont pas encore, une fenêtre “coming soon” apparaît. 
-
-Nous avons aussi ajouté une page about où nous y trouverons des informations sur le projet.
-
-Pour la suite du projet, nous allons nous intéresser aux visualisations avec des cartes, ajouter plus d'interactions avec l'utilisateur pour les autres visualisations, répondre à nos problématiques  et améliorer notre dashboard **qui n'est pas encore terminé**.  
