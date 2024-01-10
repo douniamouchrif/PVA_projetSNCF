@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 from visus.visualisation import build_scatter
 from visus.interaction import build_dropdown_year
 from data.get_data import get_data_scatterplot, get_years_dropdown, get_origines_count
+from story_telling.scatter_plot_story import get_text_below_scatter
 
 question = "Comment les causes d’incidents ont-elles évolué au cours de ces 8 dernières années?"
 
