@@ -8,7 +8,7 @@ Utilisation de [Mongodb](hhttps://www.mongodb.com/fr-fr?utm_source=google&utm_ca
 
 Pour une expérience plus agréable, nous conseillons l'installation de [MongoDB Compass](https://www.mongodb.com/products/tools/compass) pour la lecture des données.
 
-[__Python (3.10.4)__](https://www.python.org)est un langage de programmation polyvalent qui est célèbre pour sa lisibilité et sa facilité d'utilisation. Il possède une grande bibliothèque standard et prend en charge plusieurs paradigmes de programmation.
+[__Python (3.10.4)__](https://www.python.org) est un langage de programmation polyvalent qui est célèbre pour sa lisibilité et sa facilité d'utilisation. Il possède une grande bibliothèque standard et prend en charge plusieurs paradigmes de programmation.
 
 ### Extensions : 
 
@@ -35,4 +35,18 @@ Pymongo Version: 4.5.0
 Pour obtenir toutes les extensions utilisées dans ce projet, veuillez exécuter cette commande : 
 
 ```pip install -r requirements.txt```
+
+### Mise en place de la base de données
+
+Une fois MongoDB et MongoDB Compass installés, vous pouvez télécharger les données se trouvant dans ```database.py```. 
+La [base de données de la météo](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/table/?sort=date&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJ0YyIsInNjaWVudGlmaWNEaXNwbGF5Ijp0cnVlLCJjb2xvciI6IiNGRjUxNUEifV0sInhBeGlzIjoiZGF0ZSIsIm1heHBvaW50cyI6IiIsInRpbWVzY2FsZSI6ImRheSIsInNvcnQiOiIiLCJjb25maWciOnsiZGF0YXNldCI6ImRvbm5lZXMtc3lub3AtZXNzZW50aWVsbGVzLW9tbSIsIm9wdGlvbnMiOnt9fX1dLCJkaXNwbGF5TGVnZW5kIjp0cnVlLCJhbGlnbk1vbnRoIjp0cnVlfQ%3D%3D
+) étant très volumineuse, cette opération risque de prendre plusieurs heures.
+
+### Lancement de l'app
+
+Une fois que les données ont été récupérées, vous pouvez lancer directement l'app : 
+
+```python app.py```
+
+
 
