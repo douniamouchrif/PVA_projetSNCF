@@ -26,7 +26,8 @@ def layout():
         html.Div([html.P("Sélectionner une année :"),
                   dropdown,
                   graph,
-                  incident_origines
+                  incident_origines,
+                  get_text_below_scatter()
                   ])
     ]), dcc.Location(id='url-redirect2')]
 
