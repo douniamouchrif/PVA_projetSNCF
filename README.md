@@ -1,6 +1,6 @@
-# projetSNCF
+# PROJET DE VISUALISATION ANALYTIQUE-MASTER 1
 
-Notre projet de visualisation porte sur les données d’incidents de la SNCF. Alors tout d’abord, pourquoi ces données ? Nous les avons choisies car nous cherchions un thème en rapport avec les déplacements et la sécurité routière en France, donc, en particulier les incidents de la route, d’avion,... puis nous avons trouvé une base de données sur les incidents de la SNCF. On a donc creusé un petit peu le site et nous nous sommes dit que cela pourrait être une bonne idée de l’exploiter. Nous avons ensuite réfléchi autour de plusieurs problématiques auxquelles nous allons tenter de répondre à l’aide de nos visualisations.  
+Bienvenue sur notre projet de visualisation analytique de master 1. Ce projet se portera sur l'étude des incidents de la SNCF entre 2015 et 2023.
 
 Voici les versions de chaque outils que nous utilisons pour ce projet : 
 
