@@ -8,6 +8,10 @@ Utilisation de [Mongodb](hhttps://www.mongodb.com/fr-fr?utm_source=google&utm_ca
 
 Pour une expérience plus agréable, nous conseillons l'installation de [MongoDB Compass](https://www.mongodb.com/products/tools/compass) pour la lecture des données.
 
+### Extensions : 
+
+- __Python__ (3.10.4) est un langage de programmation polyvalent qui est célèbre pour sa lisibilité et sa facilité d'utilisation. Il possède une grande bibliothèque standard et prend en charge plusieurs paradigmes de programmation.
+
 ### Versions de chaque outils utilisés pour le projet : 
 
 ```bash
