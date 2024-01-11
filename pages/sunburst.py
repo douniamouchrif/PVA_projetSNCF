@@ -14,12 +14,12 @@ dash.register_page(__name__, question=question, external_stylesheets=[
 
 def layout():
     avant = dbc.Button(
-        "Avant", id="btn-avant5", color="primary", className="mr-1", style={'float': 'left', 'background-color': '#670907'})
+        "Avant", id="btn-avant6", color="primary", className="mr-1", style={'float': 'left', 'background-color': '#670907'})
 
     return [html.Div(children=[
         html.Div([
             avant,
-            dbc.Button("Retour", id="btn-retour5", color="primary",
+            dbc.Button("Retour", id="btn-retour6", color="primary",
                        className="mr-1", style={'float': 'right', 'background-color': '#670907'}),
             html.H3(question, style={'textAlign': 'center'}),
         ]),
@@ -29,7 +29,7 @@ def layout():
             html.Div(id='sunburst-container', children=[]),
             get_text_below_sunburst(),
         ])
-    ]), dcc.Location(id='url-redirect5')]
+    ]), dcc.Location(id='url-redirect6')]
 
 
 @callback(Output(component_id='sunburst-container', component_property='children'),
@@ -52,9 +52,9 @@ def graph_update(dropdown_values):
 
 
 @callback(
-    Output("url-redirect5", "pathname"),
-    [Input("btn-retour5", "n_clicks"),
-     Input("btn-avant5", "n_clicks")]
+    Output("url-redirect6", "pathname"),
+    [Input("btn-retour6", "n_clicks"),
+     Input("btn-avant6", "n_clicks")]
 )
 def button_callback(n_clicks_retour, n_clicks_avant):
     if n_clicks_retour:

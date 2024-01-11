@@ -16,21 +16,21 @@ def layout():
     lineplot = dcc.Graph(id='incident-graph'),
     heapmap = dcc.Graph(id='heatmap')
     avant = dbc.Button(
-        "Avant", id="btn-avant3", color="primary", className="mr-1", style={'float': 'left', 'background-color': '#670907'})
+        "Avant", id="btn-avant4", color="primary", className="mr-1", style={'float': 'left', 'background-color': '#670907'})
     apres = dbc.Button(
-        "Après", id="btn-apres3", color="primary", className="mr-1", style={'float': 'right', 'background-color': '#670907'})
+        "Après", id="btn-apres4", color="primary", className="mr-1", style={'float': 'right', 'background-color': '#670907'})
 
     return [html.Div(children=[
         avant,
         apres,
-        dbc.Button("Retour", id="btn-retour3", color="primary",
+        dbc.Button("Retour", id="btn-retour4", color="primary",
                    className="mr-1", style={'float': 'right', 'background-color': '#670907'}),
         html.H3(question, style={'textAlign': 'center'}),
         build_radioitems(),
         html.Div(lineplot),
         html.Div(heapmap),
         get_text_below_lineplot(),
-        dcc.Location(id='url-redirect3')
+        dcc.Location(id='url-redirect4')
     ])]
 
 
@@ -50,15 +50,15 @@ def update_graph(selected_option, click_data, cumulative_mode):
 
 
 @callback(
-    Output("url-redirect3", "pathname"),
-    [Input("btn-retour3", "n_clicks"),
-     Input("btn-avant3", "n_clicks"),
-     Input("btn-apres3", "n_clicks")]
+    Output("url-redirect4", "pathname"),
+    [Input("btn-retour4", "n_clicks"),
+     Input("btn-avant4", "n_clicks"),
+     Input("btn-apres4", "n_clicks")]
 )
 def button_callback(n_clicks_retour, n_clicks_avant, n_clicks_apres):
     if n_clicks_retour:
         return '/visualisations'
     elif n_clicks_avant:
-        return '/boxplot'
+        return '/incident-map'
     elif n_clicks_apres:
         return '/scatter'

@@ -1,5 +1,6 @@
 import pandas as pd
 from data.connect import db
+import geopandas as gpd
 
 
 # Boxplot
@@ -120,6 +121,42 @@ def get_data_barplot_1522(years):
     mean_gravity_df = mean_gravity_df.loc[mean_gravity_df.sum(
         axis=1).sort_values(ascending=False).index]
     return mean_gravity_df
+
+
+# Map
+def get_data_regions():
+    url = 'https://drive.google.com/uc?id=1_bKCQYlMiU-lJMgLvFOvfBqgHH2IQD_p&export=download'
+    regions = gpd.read_file(url)
+    return regions
+
+def get_data_lines():
+    df_cursor_sncf23 = db.sncf23.find({})
+    df_sncf23 = pd.DataFrame(list(df_cursor_sncf23))
+
+    df_cursor_sncf1522 = db.sncf1522.find({})
+    df_sncf1522 = pd.DataFrame(list(df_cursor_sncf1522))
+    df_sncf23['date'] = pd.to_datetime(df_sncf23['date'], errors='coerce')
+    df_sncf1522['date'] = pd.to_datetime(df_sncf1522['date'], errors='coerce')
+    df_combined = pd.concat([df_sncf23, df_sncf1522], ignore_index=True)
+    df_combined['date'] = pd.to_datetime(df_combined['date'], errors='coerce')
+    print(df_combined)
+    return df_combined
+
+def get_min_max_df(df):
+    start_date = df['date'].min().strftime('%Y-%m-%d')
+    end_date = df['date'].max().strftime('%Y-%m-%d')
+    return start_date, end_date
+
+def merged(regions,df_combined):
+    total_incidents = df_combined.groupby('region').size().reset_index(name='incident_count')
+    merged_data = pd.merge(regions, total_incidents, left_on='nom', right_on='region', how='left')
+    merged_data['customdata'] = merged_data['incident_count']
+    return merged_data
+
+def lineE_T(with_lines_types=False):
+    cursor = db.sncfLigneE.find({}) if not with_lines_types else db.sncfLigneT.find({})
+    data_lines = pd.DataFrame(list(cursor))
+    return data_lines
 
 
 # Dropdown

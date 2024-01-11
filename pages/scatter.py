@@ -18,15 +18,15 @@ def layout():
     incident_origines = html.Div(id='incident_origines')
 
     avant = dbc.Button(
-        "Avant", id="btn-avant4", color="primary", className="mr-1", style={'float': 'left', 'background-color': '#670907'})
+        "Avant", id="btn-avant5", color="primary", className="mr-1", style={'float': 'left', 'background-color': '#670907'})
     apres = dbc.Button(
-        "Après", id="btn-apres4", color="primary", className="mr-1", style={'float': 'right', 'background-color': '#670907'})
+        "Après", id="btn-apres5", color="primary", className="mr-1", style={'float': 'right', 'background-color': '#670907'})
 
     return [html.Div(children=[
         html.Div([
             avant,
             apres,
-            dbc.Button("Retour", id="btn-retour4", color="primary",
+            dbc.Button("Retour", id="btn-retour5", color="primary",
                        className="mr-1", style={'float': 'right', 'background-color': '#670907'}),
             html.H3(question, style={'textAlign': 'center'})
         ]),
@@ -36,7 +36,7 @@ def layout():
                   incident_origines,
                   get_text_below_scatter()
                   ])
-    ]), dcc.Location(id='url-redirect4')]
+    ]), dcc.Location(id='url-redirect5')]
 
 
 @callback(
@@ -64,15 +64,15 @@ def graph_update(dropdown_values, selected_data):
 
 
 @callback(
-    Output("url-redirect4", "pathname"),
-    [Input("btn-retour4", "n_clicks"),
-     Input("btn-avant4", "n_clicks"),
-     Input("btn-apres4", "n_clicks")]
+    Output("url-redirect5", "pathname"),
+    [Input("btn-retour5", "n_clicks"),
+     Input("btn-avant5", "n_clicks"),
+     Input("btn-apres5", "n_clicks")]
 )
 def button_callback(n_clicks_retour, n_clicks_avant, n_clicks_apres):
     if n_clicks_retour:
         return '/visualisations'
     elif n_clicks_avant:
-        return '/lineplot-heapmap'
+        return '/lineplot_graph'
     elif n_clicks_apres:
         return '/sunburst'

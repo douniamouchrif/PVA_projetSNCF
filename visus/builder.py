@@ -1,5 +1,7 @@
 import plotly.express as px
 import plotly.graph_objects as go
+import pandas as pd
+import concurrent.futures
 
 # Boxplot
 def build_boxplot(data):
@@ -151,3 +153,51 @@ def barplot_1522(data):
         title='Gravité Moyenne des 5 Principaux Types d\'Incidents dans les 5 Principales Régions'
     )
     return fig
+
+# Map
+def build_map(lines_layer, start_date, end_date, fig_fetch_and_process_lines, regions, df_combined, display_option, n_clicks_no_lines,n_clicks_with_lines,n_clicks_with_lines_types):
+    if n_clicks_no_lines > 0:
+        lines_layer = None
+    elif n_clicks_with_lines > 0:
+        lines_layer = fig_fetch_and_process_lines
+    elif n_clicks_with_lines_types > 0:
+        lines_layer = fig_fetch_and_process_lines
+    start_date = pd.to_datetime(start_date)
+    end_date = pd.to_datetime(end_date)
+    filtered_data = df_combined[(df_combined['date'] >= start_date) & (df_combined['date'] <= end_date)]
+    if display_option == 'incident_count':
+        display_data = filtered_data.groupby('region').size().reset_index(name='display_value')
+    elif display_option == 'average_gravity':
+        display_data = filtered_data.groupby('region')['niveau_gravite'].mean().reset_index(name='display_value')
+    merged_data = pd.merge(regions, display_data, left_on='nom', right_on='region', how='left')
+    updated_fig = px.choropleth_mapbox(merged_data,
+                                       geojson=merged_data.geometry,
+                                       locations=merged_data.index,
+                                       color='display_value',
+                                       hover_name='nom',
+                                       title=f'Carte des incidents SNCF par région - {display_option}',
+                                       mapbox_style="carto-positron",
+                                       center={"lat": 46.6035, "lon": 1.8888},
+                                       zoom=4)
+    if lines_layer:
+        for trace in lines_layer:
+            updated_fig.add_trace(trace)
+    return updated_fig
+
+def fetch_and_process_lines(data_lines):
+    traces_lines = []
+    def process_item(item):
+        if 'geo_shape' in item and 'geometry' in item['geo_shape'] and 'coordinates' in item['geo_shape']['geometry']:
+            coordinates = item['geo_shape']['geometry']['coordinates']
+            trace_line = go.Scattermapbox(
+                lat=[coord[1] for coord in coordinates],
+                lon=[coord[0] for coord in coordinates],
+                mode='lines',
+                line=dict(color='black', width=2),
+                hoverinfo='none',
+                showlegend=False,
+            )
+            traces_lines.append(trace_line)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.map(process_item, data_lines)
+    return traces_lines

@@ -45,4 +45,4 @@ def button_callback(n_clicks_retour, n_clicks_avant, n_clicks_apres):
     elif n_clicks_avant:
         return '/barplot'
     elif n_clicks_apres:
-        return '/lineplot-heapmap'
+        return '/incident-map'

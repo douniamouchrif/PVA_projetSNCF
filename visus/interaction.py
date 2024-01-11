@@ -54,3 +54,38 @@ def build_radioitems():
     )
 
     return html.Div([radioitems, cumulative_radioitem])
+
+
+# Date picker
+def build_radioitems_map(start_date, end_date):
+    datepickerrange_props = {
+        "start_date": start_date,
+        "end_date": end_date,
+        "display_format": "YYYY-MM-DD",
+        "id": "date-picker-range"
+    }
+    radioitems_props = {
+        "options": [
+            {"label": "Nombre d'incidents", "value": "incident_count"},
+            {"label": "Moyenne du niveau de gravité", "value": "average_gravity"},
+        ],
+        "value": "incident_count",
+        "inline": True,
+        "style": {"fontSize": 20, "textAlign": "center"},
+        "id": "map-display-option"
+    }
+    datepickerrange = dcc.DatePickerRange(**datepickerrange_props)
+    radioitems = dcc.RadioItems(**radioitems_props)
+    return datepickerrange, radioitems
+
+
+# Buttons Map
+def generate_button_div():
+    button_info = [
+        ('button-no-electric-lines', 'Sans les lignes'),
+        ('button-with-electric-lines', 'Avec les lignes éléctrifiés'),
+        ('button-with-lines-types', 'Avec les lignes types'),
+    ]
+    buttons = [html.Button(label, id=button_id, n_clicks=0) for button_id, label in button_info]
+    button_div = html.Div(buttons, style={'textAlign': 'center', 'justify-content': 'space-between'})
+    return button_div
