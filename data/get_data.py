@@ -20,8 +20,6 @@ def get_data_boxplot_t():
     return df_filtered
 
 # Scatterplot
-
-
 def get_data_scatterplot(year):
     if year == '2023':
         result = db.sncf23.find()
