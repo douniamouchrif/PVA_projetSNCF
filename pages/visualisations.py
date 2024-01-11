@@ -15,12 +15,13 @@ card_style = {
 }
 
 image_style = {
-    'width': '100%',  
-    'max-width': '700px',  
-    'height': 'auto',  
-    'display': 'block',  
-    'margin': '0 auto', 
+    'width': '100%',
+    'max-width': '700px',
+    'height': 'auto',
+    'display': 'block',
+    'margin': '0 auto',
 }
+
 
 def layout():
     children = []
@@ -31,8 +32,7 @@ def layout():
     children.append(
         html.Img(src='/static/IMG/train.png', style={'width': '10%'}))
     children.append(
-        html.P("Nous nous sommes posées plusieurs questions sur les données de la sncf concernant les incidents et c'est à travers différentes visualisations que nous avons tenté d'y répondre."
-               , style={'fontSize': '1.25em'}))
+        html.P("Nous nous sommes posé plusieurs questions sur les données de la SNCF concernant les incidents, et c'est à travers différentes visualisations que nous avons tenté d'y répondre.", style={'fontSize': '1.25em'}))
 
     # Utiliser la disposition flexbox avec flexDirection='row'
     children.append(html.Div([
