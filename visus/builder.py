@@ -83,7 +83,6 @@ def build_heapmap(df, selected_option, click_data):
                                 labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
                                 title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
         else :
-            #print(click_data)
             clicked_origine = click_data['points'][0]['curveNumber']
             filtered_df = incidents_par_region_annee[incidents_par_region_annee['origine'] == df['origine'].unique()[clicked_origine]]
             clicked_origine_label = incidents_par_region_annee['origine'].unique()[clicked_origine]

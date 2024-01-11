@@ -29,6 +29,7 @@ def build_range_slider(min_val, max_val, default_values, marks_list):
         step=1,
     )
 
+
 # Radio item
 def build_radioitems():
     radioitems = dcc.RadioItems(
@@ -41,7 +42,6 @@ def build_radioitems():
         inline=True,
         style={'fontSize': 20, 'textAlign': 'center'}
     )
-
     cumulative_radioitem = dcc.RadioItems(
         id='cumulative-radio',
         options=[
@@ -52,7 +52,6 @@ def build_radioitems():
         inline=True,
         style={'fontSize': 20, 'textAlign': 'center'}
     )
-
     return html.Div([radioitems, cumulative_radioitem])
 
 
@@ -83,8 +82,8 @@ def build_radioitems_map(start_date, end_date):
 def generate_button_div():
     button_info = [
         ('button-no-electric-lines', 'Sans les lignes'),
-        ('button-with-electric-lines', 'Avec les lignes éléctrifiés'),
-        ('button-with-lines-types', 'Avec les lignes types'),
+        ('button-with-electric-lines', 'Lignes éléctrifiés'),
+        ('button-with-lines-types', 'Lignes types'),
     ]
     buttons = [html.Button(label, id=button_id, n_clicks=0) for button_id, label in button_info]
     button_div = html.Div(buttons, style={'textAlign': 'center', 'justify-content': 'space-between'})
