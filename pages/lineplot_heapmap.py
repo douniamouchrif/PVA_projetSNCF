@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 from visus.visualisation import build_lineplot, build_heapmap
 from visus.interaction import build_radioitems
 from data.get_data import get_data_lineplot
+from story_telling.line_plot_story import get_text_below_lineplot
 
 question = "Quelles sont les causes des accidents les plus récurrentes ?"
 
@@ -28,6 +29,7 @@ def layout():
         build_radioitems(),
         html.Div(lineplot),
         html.Div(heapmap),
+        get_text_below_lineplot(),
         dcc.Location(id='url-redirect3')
     ])]
 
