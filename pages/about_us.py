@@ -13,6 +13,14 @@ card_style = {
     'background-color': '#F8F9FA',  # Couleur de fond légère
 }
 
+image_style = {
+    'width': '100%',  
+    'max-width': '500px',  
+    'height': 'auto',  
+    'display': 'block',  
+    'margin': '0 auto', 
+}
+
 layout = html.Div([
     html.Div([
         html.H1('About us', style={'textAlign': 'center',
@@ -29,5 +37,7 @@ layout = html.Div([
         html.Br(),
         html.Img(src="/static/IMG/Groupe.jpg",
                  style={'width': '40%', 'margin-top': '20px', 'margin-bottom': '20px'}),
-    ])
+    ]),
+    html.Img(src="/static/IMG/gif.gif",
+            style=image_style),
 ])

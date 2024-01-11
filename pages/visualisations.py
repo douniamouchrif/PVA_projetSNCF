@@ -14,6 +14,13 @@ card_style = {
     'background-color': '#F8F9FA',  # Couleur de fond légère
 }
 
+image_style = {
+    'width': '100%',  
+    'max-width': '700px',  
+    'height': 'auto',  
+    'display': 'block',  
+    'margin': '0 auto', 
+}
 
 def layout():
     children = []
@@ -37,5 +44,7 @@ def layout():
                         'textDecoration': 'none'})
         for pi in dash.page_registry.values() if 'question' in pi
     ], style={'display': 'flex', 'flexDirection': 'row', 'justifyContent': 'space-evenly'}))
-    
+    children.append(
+        html.Img(src='/static/IMG/gif_train.gif', style=image_style))
+
     return html.Div(children=children)
