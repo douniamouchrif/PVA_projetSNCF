@@ -6,3 +6,4 @@ data/__pycache__/get_data.cpython-310.pyc
 visus/__pycache__/interaction.cpython-311.pyc
 visus/__pycache__/visualisation.cpython-311.pyc
 *.pyc
+.DS_Store
