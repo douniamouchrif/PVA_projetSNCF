@@ -26,14 +26,14 @@ def layout():
         html.Div([
             html.P("Sélectionner une ou plusieurs années à afficher (par défaut toutes les années de 2016 à 2023 sont affichées) :"),
             build_dropdown_year_multi(get_years_dropdown()),
-            html.Div(id='sunburst-container', children=[]),
+            html.Div(id='sunburst-container'),
             get_text_below_sunburst(),
         ])
     ]), dcc.Location(id='url-redirect6')]
 
 
-@callback(Output(component_id='sunburst-container', component_property='children'),
-          [Input(component_id='dropdown', component_property='value')])
+@callback(Output('sunburst-container', 'children'),
+          [Input('dropdown', 'value')])
 def graph_update(dropdown_values):
     if dropdown_values is None or len(dropdown_values) == 0:
         return html.Div(children=[

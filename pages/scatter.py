@@ -73,6 +73,6 @@ def button_callback(n_clicks_retour, n_clicks_avant, n_clicks_apres):
     if n_clicks_retour:
         return '/visualisations'
     elif n_clicks_avant:
-        return '/lineplot_graph'
+        return '/lineplot-heapmap'
     elif n_clicks_apres:
         return '/sunburst'
