@@ -56,7 +56,7 @@ python app.py
 
 ## Les différentes API : 
 
-Pour notre projet, nous utilisons 5 API, 4 provenant des données de la SNCF et la dernière provenant du site OpenDataSoft et contenant les observations météorologiques historiques en France.
+Pour notre projet, nous utilisons 6 API, 5 provenant des données de la SNCF et la dernière provenant du site OpenDataSoft et contenant les observations météorologiques historiques en France.
 
 - [Incidents de sécurité (Evénements de sécurité remarquables - ESR) de janvier 2015 à décembre 2022](https://data.sncf.com/explore/dataset/incidents-securite/table/?sort=date)
 
