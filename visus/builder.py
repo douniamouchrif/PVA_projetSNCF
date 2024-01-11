@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import concurrent.futures
 
+
 # Boxplot
 def build_boxplot(data):
     fig = px.box(data, x='year', y=data.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
@@ -70,6 +71,7 @@ def build_lineplot(df, selected_option, cumulative_mode):
         fig_line = px.line(filtered_df_line, x='year', y=y_column, color='origine',
                            title=title, labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
     return fig_line
+
 
 # Heapmap
 def build_heapmap(df, selected_option, click_data):
@@ -153,6 +155,7 @@ def barplot_1522(data):
         title='Gravité Moyenne des 5 Principaux Types d\'Incidents dans les 5 Principales Régions'
     )
     return fig
+
 
 # Map
 def build_map(lines_layer, start_date, end_date, fig_fetch_and_process_lines, regions, df_combined, display_option, n_clicks_no_lines,n_clicks_with_lines,n_clicks_with_lines_types):
