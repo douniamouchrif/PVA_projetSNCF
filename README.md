@@ -44,7 +44,7 @@ pip install -r requirements.txt
 
 Une fois MongoDB et MongoDB Compass installés, vous pouvez télécharger les données se trouvant dans ```database.py```. 
 La [base de données de la météo](https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/table/?sort=date&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJ0YyIsInNjaWVudGlmaWNEaXNwbGF5Ijp0cnVlLCJjb2xvciI6IiNGRjUxNUEifV0sInhBeGlzIjoiZGF0ZSIsIm1heHBvaW50cyI6IiIsInRpbWVzY2FsZSI6ImRheSIsInNvcnQiOiIiLCJjb25maWciOnsiZGF0YXNldCI6ImRvbm5lZXMtc3lub3AtZXNzZW50aWVsbGVzLW9tbSIsIm9wdGlvbnMiOnt9fX1dLCJkaXNwbGF5TGVnZW5kIjp0cnVlLCJhbGlnbk1vbnRoIjp0cnVlfQ%3D%3D
-) étant très volumineuse, cette opération risque de prendre plusieurs heures.
+) étant très volumineuse, cette opération risque de prendre plusieurs heures. Comptez environ 1h30 pour récupérer les données de la météo (aux alentours de 10000 données par minute).
 
 ## Lancement de l'app : 
 
