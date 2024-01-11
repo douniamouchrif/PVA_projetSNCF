@@ -23,6 +23,9 @@ def layout():
     ], style=card_style))
     children.append(
         html.Img(src='/static/IMG/train.png', style={'width': '10%'}))
+    children.append(
+        html.P("Nous nous sommes posées plusieurs questions sur les données de la sncf concernant les incidents et c'est à travers différentes visualisations que nous avons tenté d'y répondre."
+               , style={'fontSize': '1.25em'}))
 
     # Utiliser la disposition flexbox avec flexDirection='row'
     children.append(html.Div([
@@ -34,5 +37,5 @@ def layout():
                         'textDecoration': 'none'})
         for pi in dash.page_registry.values() if 'question' in pi
     ], style={'display': 'flex', 'flexDirection': 'row', 'justifyContent': 'space-evenly'}))
-
+    
     return html.Div(children=children)

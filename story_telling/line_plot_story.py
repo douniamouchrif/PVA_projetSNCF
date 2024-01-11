@@ -11,4 +11,4 @@ def get_text_below_lineplot():
         html.Li("Pour la cause Voyageur les incidents sont plus fréquents en Auvergne-Rhône-Alpes, Ile-de-France et Occitanie."),
         html.Br(),
         html.P("Pour conclure, nous avons remarqué 3 causes d'incidents qui sont les plus récurrentes, et en ce qui concerne l'évolution du nombre d'incidents par cause, on observe pas de réelle évolution au cours des années, le nombre d'incidents varie un peu mais reste assez consatant dans l'ensemble pour chaque cause."),
-        ], style={'margin-top': '20px', 'font-size': '16px'})
+        ], style={'margin-top': '20px', 'font-size': '16px', 'fontSize': '1.25em'})
