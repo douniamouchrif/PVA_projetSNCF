@@ -16,13 +16,12 @@ SIDEBAR_STYLE = {
     "bottom": 0,
     "width": "16rem",
     "padding": "2rem 1rem",
-    "background-color": "#670907",  # Couleur de fond de la sidebar
+    "background-color": "#670907",  
 }
 NAV_LINK_STYLE = {
     "color": "white",
 }
 
-# Define the order of pages
 PAGE_ORDER = ["Home", "Visualisations", "About us"]
 
 
@@ -42,12 +41,12 @@ def generate_sidebar(pathname):
                         id=f"{page['name'].lower()}-link",
                         style={
                             **NAV_LINK_STYLE,
-                            "font-size": "1.5rem"  # Set the font size here
+                            "font-size": "1.5rem" 
                         },
                         active={
                             'font-weight': 'bold'
                         } if page["name"].lower() == pathname.strip('/') else {},
-                        className="nav-link-hover",  # Ajoutez la nouvelle classe CSS pour le survol
+                        className="nav-link-hover", 
                     )
                     for page_name in PAGE_ORDER
                     for page in dash.page_registry.values() if page["name"] == page_name and 'location' in page and page['location'] == 'sidebar'
