@@ -5,7 +5,7 @@ def build_dropdown_year(item_list):
     options = [{"label": x, "value": x} for x in item_list]
     return dcc.Dropdown(id='dropdown',
                         options=options,
-                        value=item_list[2],
+                        value=item_list[0],
                         style={'color': 'black'})
 
 def build_dropdown_year_multi(item_list):
@@ -29,7 +29,7 @@ def build_range_slider(min_val, max_val, default_values, marks_list):
         step=1,
     )
 
-#radio item
+# Radio item
 def build_radioitems():
     radioitems = dcc.RadioItems(
         id='origine-radio',
@@ -37,7 +37,7 @@ def build_radioitems():
             {'label': 'Distinction des origines', 'value': 'distinct'},
             {'label': 'Globale', 'value': 'all'},
         ],
-        value='distinct',  # Valeur par défaut
+        value='distinct',
         inline=True,
         style={'fontSize': 20, 'textAlign': 'center'}
     )
@@ -48,7 +48,7 @@ def build_radioitems():
             {'label': 'Cumulatif', 'value': True},
             {'label': 'Non Cumulatif', 'value': False},
         ],
-        value=False,  # Valeur par défaut
+        value=False,
         inline=True,
         style={'fontSize': 20, 'textAlign': 'center'}
     )

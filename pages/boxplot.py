@@ -1,7 +1,7 @@
 import dash
 from dash import html, dcc, callback, Input, Output
 import dash_bootstrap_components as dbc
-from visus.visualisation import build_boxplot
+from visus.builder import build_boxplot
 from data.get_data import get_data_boxplot_t
 from story_telling.box_plot_story import get_text_below_boxplot
 

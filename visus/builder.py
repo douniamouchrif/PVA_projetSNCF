@@ -2,8 +2,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # Boxplot
-
-
 def build_boxplot(data):
     fig = px.box(data, x='year', y=data.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
                  title='Nombre d\'incidents par année',
@@ -44,8 +42,8 @@ def build_scatter(df, year):
         gravite = 'niveau_gravite'
     df['Mois'] = df['Mois'].dt.strftime('%Y-%m')
     fig = px.scatter(df, x='Mois', y=gravite,
-                     title=f'Gravité moyenne par mois', color=gravite, size=gravite)
-    fig.update_traces(marker=dict(size=12), selector=dict(mode='markers'))
+                     title=f'Gravité moyenne par mois', color=gravite)
+    fig.update_traces(marker=dict(size=25), selector=dict(mode='markers'))
     fig.update_layout(clickmode='event+select', yaxis_title="Gravité")
     return fig
 
@@ -53,7 +51,6 @@ def build_scatter(df, year):
 # Lineplot
 def build_lineplot(df, selected_option, cumulative_mode):
     incidents_par_annee = df.groupby(['year', 'origine']).size().reset_index(name='nombre_incidents')
-    
     if cumulative_mode:
         incidents_par_annee['cumulative_incidents'] = incidents_par_annee.groupby('origine')['nombre_incidents'].cumsum()
         y_column = 'cumulative_incidents'
@@ -70,20 +67,19 @@ def build_lineplot(df, selected_option, cumulative_mode):
         filtered_df_line = incidents_par_annee[incidents_par_annee['origine'].isin(df['origine'].unique())]
         fig_line = px.line(filtered_df_line, x='year', y=y_column, color='origine',
                            title=title, labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
-        fig_line.update_layout(showlegend=True)
-
-    fig_line.update_layout(yaxis=dict(showline=False, showgrid=False, zeroline=False))
     return fig_line
 
+# Heapmap
 def build_heapmap(df, selected_option, click_data):
     incidents_par_region_annee = df.groupby(['year', 'origine', 'region']).size().reset_index(name='nombre_incidents')
     
     if click_data and 'points' in click_data and click_data['points']:
-        if selected_option == 'all' : 
+        if selected_option == 'all' : #version globale du heapmap quand on passe de distinction à all 
             fig_heatmap = px.imshow(incidents_par_region_annee.pivot_table(index='year', columns='region', values='nombre_incidents'),
                                 labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
                                 title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
         else :
+            #print(click_data)
             clicked_origine = click_data['points'][0]['curveNumber']
             filtered_df = incidents_par_region_annee[incidents_par_region_annee['origine'] == df['origine'].unique()[clicked_origine]]
             clicked_origine_label = incidents_par_region_annee['origine'].unique()[clicked_origine]
@@ -96,8 +92,7 @@ def build_heapmap(df, selected_option, click_data):
                                 labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
                                 title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
         
-    fig_heatmap.update_layout(xaxis=dict(showline=False, showgrid=False, zeroline=False, tickangle=45),
-                            yaxis=dict(showline=False, showgrid=False, zeroline=False))
+    fig_heatmap.update_layout(xaxis=dict(tickangle=45))
     return fig_heatmap
 
 

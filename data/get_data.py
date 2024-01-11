@@ -124,7 +124,7 @@ def get_data_barplot_1522(years):
 
 # Dropdown
 def get_years_dropdown():
-    cursor = db.sncf1522.find({}, {'date': 1, '_id': 0})
+    cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None}}, {'date': 1, '_id': 0})
     df = pd.DataFrame(list(cursor))
     df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df['year'] = df['date'].dt.strftime('%Y')

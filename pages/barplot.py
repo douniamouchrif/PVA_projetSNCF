@@ -1,7 +1,7 @@
 import dash
 from dash import html, dcc, callback, Input, Output
 import dash_bootstrap_components as dbc
-from visus.visualisation import barplot_1522
+from visus.builder import barplot_1522
 from visus.interaction import build_range_slider
 from data.get_data import get_data_barplot_1522, get_years_range_slider
 

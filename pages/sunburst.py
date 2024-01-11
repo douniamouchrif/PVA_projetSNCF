@@ -1,7 +1,7 @@
 import dash
 from dash import html, dcc, callback, Input, Output
 import dash_bootstrap_components as dbc
-from visus.visualisation import build_sunburst
+from visus.builder import build_sunburst
 from visus.interaction import build_dropdown_year_multi
 from data.get_data import get_data_sunburst, get_years_dropdown
 from story_telling.sunburst_story import get_text_below_sunburst
