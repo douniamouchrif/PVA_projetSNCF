@@ -73,34 +73,9 @@ Pour notre projet, nous utilisons 6 API, 5 provenant des données de la SNCF et 
 
 ## Contributeurs  : 
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/suhailaabarkan">
-        <img src="https://avatars.githubusercontent.com/u/102798630?v=4" width="50" height="50" alt=""/><br />
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/douniamouchrif">
-        <img src="https://avatars.githubusercontent.com/u/102798610?v=4" width="50" height="50" alt=""/><br />
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/k-roman5">
-        <img src="https://avatars.githubusercontent.com/u/102798439?v=4" width="50" height="50" alt=""/><br />
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/mathildetissandier">
-        <img src="https://avatars.githubusercontent.com/u/102798509?v=4" width="50" height="50" alt=""/><br />
-      </a>
-    </td>
-  </tr>
-</table>
-
 | [<img src="https://avatars.githubusercontent.com/u/102798630?v=4" width="50" height="50" alt=""/>](https://github.com/suhailaabarkan) | [<img src="https://avatars.githubusercontent.com/u/102798610?v=4" width="50" height="50" alt=""/>](https://github.com/douniamouchrif) | [<img src="https://avatars.githubusercontent.com/u/102798439?v=4" width="50" height="50" alt=""/>](https://github.com/k-roman5) | [<img src="https://avatars.githubusercontent.com/u/102798509?v=4" width="50" height="50" alt=""/>](https://github.com/mathildetissandier) |
 | :-----------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-|                                        [Suhail Aabarkan](https://github.com/suhailaabarkan)                                        |                                    [Dounia Mouchrif](https://github.com/douniamouchrif)                                    |                                        [Roman K](https://github.com/k-roman5)                                        |                               [Mathilde Tissandier](https://github.com/mathildetissandier)                               |
+|                                        [Suhail Aabarkan](https://github.com/suhailaabarkan)                                        |                                    [Dounia Mouchrif](https://github.com/douniamouchrif)                                    |                                        [Karina Roman](https://github.com/k-roman5)                                        |                               [Mathilde Tissandier](https://github.com/mathildetissandier)                               |
 
 
 
