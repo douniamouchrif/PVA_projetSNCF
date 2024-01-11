@@ -20,13 +20,13 @@ def get_data_boxplot_t():
     df_filtered = pd.concat([df_filtered_1522, df_filtered_23])
     return df_filtered
 
+
 # Scatterplot
 def get_data_scatterplot(year):
     if year == '2023':
         result = db.sncf23.find()
         df = pd.DataFrame(result)
         gravite = 'gravite_epsf'
-
     else:
         result = db.sncf1522.find()
         df = pd.DataFrame(result)
@@ -39,7 +39,6 @@ def get_data_scatterplot(year):
     grouped_data = df.dropna(subset=[gravite]).groupby('Mois')[
         gravite].mean().reset_index()
     return grouped_data
-
 
 def get_origines_count(year, month):
     if year == '2023':
@@ -102,6 +101,7 @@ def get_data_sunburst(year):
         [total], columns=['id', 'parent', 'value'])], ignore_index=True)
     return df_all_trees
 
+
 # Barplot
 def get_data_barplot_1522(years):
     cursor = db.sncf1522.find(
@@ -139,7 +139,6 @@ def get_data_lines():
     df_sncf1522['date'] = pd.to_datetime(df_sncf1522['date'], errors='coerce')
     df_combined = pd.concat([df_sncf23, df_sncf1522], ignore_index=True)
     df_combined['date'] = pd.to_datetime(df_combined['date'], errors='coerce')
-    print(df_combined)
     return df_combined
 
 def get_min_max_df(df):
