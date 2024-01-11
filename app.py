@@ -7,7 +7,7 @@ external_stylesheets = [
 ]
 
 app = dash.Dash(__name__, use_pages=True, external_stylesheets=external_stylesheets,
-                suppress_callback_exceptions=True, assets_folder='assets_folder')
+                suppress_callback_exceptions=True)
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -91,4 +91,3 @@ app.layout = html.Div(style={'backgroundColor': '#c0c0bb', 'color': 'black', 'mi
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
