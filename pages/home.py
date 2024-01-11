@@ -45,7 +45,7 @@ layout = html.Div(style={'color': 'black', 'min-height': '100vh'}, children=[
                "avec l'API afin d'assurer une mise à jour régulière et une précision maximale. Les données sont extraites "
                "à partir du site officiel de la SNCF et sont traitées de manière à fournir des informations "
                "pertinentes et à jour.", style={'fontSize': '1.25em'}),
-        html.P("Les 5 bases de données que nous utilisons sont les suivantes :", style={
+        html.P("Les 6 bases de données que nous utilisons sont les suivantes :", style={
             'fontSize': '1.25em'}),
         html.Div(style={'display': 'flex', 'flexDirection': 'column', 'fontSize': '1.25em'}, children=[
             html.Li(html.A("Incidents de sécurité (Evénements de sécurité remarquables - ESR) de janvier 2015 à décembre 2022",
