@@ -1,11 +1,10 @@
 from dash import html
 
+
 def get_text_below_boxplot():
     return html.Div([
-        "Box plot montrant la répartition du nombre d'accidents ferroviaires par an de 2015 à 2023.",
-        html.Br(),
-        "Vous trouverez ci-dessous une analyse détaillée de chaque année :",
-        html.Br(),
+        html.P("Box plot montrant la répartition du nombre d'accidents ferroviaires par an de 2015 à 2023."),
+        html.P("Vous trouverez ci-dessous une analyse détaillée de chaque année :"),
         "2015 : L’année avec le plus grand nombre d’incidents. La médiane est supérieure à 150 événements et il existe des valeurs extrêmes supérieures à 200 événements.",
         html.Br(),
         "2016 : Une légère diminution par rapport à 2015, avec une médiane d'environ 120 accidents. La dispersion des données est similaire à celle de 2015.",
@@ -25,8 +24,8 @@ def get_text_below_boxplot():
         "2023 : L’année en cours ou la dernière année enregistrée présente une médiane plus élevée que 2022, avec une dispersion importante et des valeurs extrêmes assez élevées.",
         html.Br(),
         html.Br(),
-        html.U("En résumé, il existe une différence significative dans le nombre d’accidents ferroviaires par an entre 2015 et 2023. Le changement le plus important s’est produit entre 2019 et 2020, correspondant au début de la crise du COVID-19, lorsque le nombre d’accidents a considérablement diminué."),
+        html.U("En résumé, il existe une différence significative dans le nombre d’accidents ferroviaires par an entre 2015 et 2023. Le changement le plus important s’est produit entre 2019 et 2020, correspondant au début de la crise du COVID-19, lorsque le nombre d’accidents a considérablement diminué. À mesure que les trains circulent moins fréquemment, les risques d’accidents diminueront naturellement, ce qui pourrait entraîner une diminution de la fréquence des accidents signalés. "),
         html.Br(),
-        html.U("À mesure que les trains circulent moins fréquemment, les risques d’accidents diminueront naturellement, ce qui pourrait entraîner une diminution de la fréquence des accidents signalés. Par ailleurs, les opérations de maintenance et d'inspection des voies ferrées et du matériel roulant auraient pu être réalisées de manière plus régulière ou avec plus d'attention pendant cette période, car des horaires moins chargés auraient permis un accès plus facile aux infrastructures sans interruption du service."),
-        html.U("Comme le montrent les données, à mesure que les restrictions liées au COVID-19 seront levées et que la vie commencera à revenir à la normale, le nombre de trains en circulation pourrait commencer à augmenter, entraînant une augmentation progressive du nombre d'accidents. L’augmentation plus importante en 2023 suggère un retour plus complet du trafic ferroviaire, ou éventuellement d’autres facteurs contribuant à l’augmentation des accidents."),
+        html.P("Par ailleurs, les opérations de maintenance et d'inspection des voies ferrées et du matériel roulant auraient pu être réalisées de manière plus régulière ou avec plus d'attention pendant cette période, car des horaires moins chargés auraient permis un accès plus facile aux infrastructures sans interruption du service. Comme le montrent les données, à mesure que les restrictions liées au COVID-19 seront levées et que la vie commencera à revenir à la normale, le nombre de trains en circulation pourrait commencer à augmenter, entraînant une augmentation progressive du nombre d'accidents. "),
+        "L’augmentation est plus importante en 2023, ce qui suggère un retour plus complet du trafic ferroviaire, ou éventuellement d’autres facteurs contribuant à l’augmentation des accidents.",
     ], style={'margin-top': '20px', 'font-size': '16px', 'fontSize': '1.25em'})
