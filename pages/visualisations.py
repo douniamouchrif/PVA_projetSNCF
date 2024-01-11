@@ -1,5 +1,5 @@
 import dash
-from dash import html
+from dash import html, dcc
 import dash_bootstrap_components as dbc
 
 dash.register_page(__name__, location="sidebar", use_pages=True, external_stylesheets=[
