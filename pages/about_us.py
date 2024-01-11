@@ -10,7 +10,7 @@ card_style = {
     'border': '2px solid #D3D3D3',
     'border-radius': '10px',
     'margin': '20px',
-    'background-color': '#F8F9FA',  # Couleur de fond légère
+    'background-color': '#F8F9FA',
 }
 
 image_style = {

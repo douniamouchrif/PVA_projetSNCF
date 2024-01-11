@@ -30,11 +30,11 @@ def layout():
     ]), dcc.Location(id='url-redirect1')]
 
 
-@callback(Output(component_id='barplot', component_property='figure'),
-          [Input(component_id='rangeslider', component_property='value')])
+@callback(Output('barplot','figure'),
+          [Input('rangeslider','value')])
 def graph_update(rangeslider_value):
     if rangeslider_value is None:
-        rangeslider_value = get_years_range_slider()  # Valeurs par défaut du slider
+        rangeslider_value = get_years_range_slider() 
     data = get_data_barplot_1522(rangeslider_value)
     return barplot_1522(data)
 

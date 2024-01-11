@@ -5,13 +5,12 @@ import dash_bootstrap_components as dbc
 dash.register_page(__name__, path='/', location="sidebar", external_stylesheets=[
                    dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
 
-# Style du cadre
 card_style = {
     'padding': '20px',
     'border': '2px solid #D3D3D3',
     'border-radius': '10px',
     'margin': '20px',
-    'background-color': '#F8F9FA',  # Couleur de fond légère
+    'background-color': '#F8F9FA',
 }
 
 
