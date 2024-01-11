@@ -30,7 +30,7 @@ def get_data_scatterplot(year):
         result = db.sncf1522.find()
         df = pd.DataFrame(result)
         gravite = 'niveau_gravite'
-    df['date'] = pd.to_datetime(df['date'])
+    df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df['year'] = df['date'].dt.strftime('%Y')
     df = df.dropna(subset=['year'])
     df['Mois'] = df['date'].dt.to_period('M')
@@ -101,14 +101,12 @@ def get_data_sunburst(year):
         [total], columns=['id', 'parent', 'value'])], ignore_index=True)
     return df_all_trees
 
-
 # Barplot
 def get_data_barplot_1522(years):
     cursor = db.sncf1522.find(
         {}, {'region': 1, 'origine': 1, 'niveau_gravite': 1, 'date': 1})
     df = pd.DataFrame(list(cursor))
     df['year'] = pd.to_datetime(df['date']).dt.year
-    df['niveau_gravite'] = pd.to_numeric(df['niveau_gravite'], errors='coerce')
     selected_data = df[(df['year'] >= years[0]) & (df['year'] <= years[1])]
     # Les 5 principales régions et types d'incidents avec le plus d'incidents
     top_regions = selected_data['region'].value_counts().nlargest(5).index
@@ -126,30 +124,28 @@ def get_data_barplot_1522(years):
 
 # Dropdown
 def get_years_dropdown():
-    cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {
-                              'niveau_gravite': 1, 'origine': 1, 'date': 1, '_id': 0})
+    cursor = db.sncf1522.find({}, {'date': 1, '_id': 0})
     df = pd.DataFrame(list(cursor))
     df['date'] = pd.to_datetime(df['date'], errors='coerce')
     df['year'] = df['date'].dt.strftime('%Y')
     df = df.dropna(subset=['year'])
     years = df['year'].unique()
     years = sorted(years, key=lambda x: int(x))
-    years.append('2023')  # Ajouter l'année 2023 à la liste
+    years.append('2023')
     return years
 
 
 # Range slider
 def get_years_range_slider():
-    cursor = db.sncf1522.find({'niveau_gravite': {'$ne': None, '$gt': 0, '$lt': 7}}, {
-                              'niveau_gravite': 1, 'origine': 1, 'date': 1, '_id': 0})
+    cursor = db.sncf1522.find({}, {'date': 1, '_id': 0})
     df = pd.DataFrame(list(cursor))
     df['date'] = pd.to_datetime(
         df['date'], errors='coerce')
     df['year'] = df['date'].dt.strftime('%Y')
     df = df.dropna(subset=['year'])
     unique_years = df['year'].unique()
-    min_val = int(unique_years.min()) if unique_years.size > 0 else 2015
-    max_val = int(unique_years.max()) if unique_years.size > 0 else 2022
+    min_val = int(unique_years.min()) 
+    max_val = int(unique_years.max())
     default_values = [min_val, max_val]
     marks_list = list(range(min_val, max_val + 1))
     return min_val, max_val, default_values, marks_list
