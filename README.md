@@ -92,7 +92,7 @@ Pour notre projet, nous utilisons 5 API, 4 provenant des données de la SNCF et 
     </td>
     <td align="center">
       <a href="https://github.com/mathildetissandier">
-        <img src="hhttps://avatars.githubusercontent.com/u/102798509?v=4" width="50" height="50" alt=""/><br />
+        <img src="https://avatars.githubusercontent.com/u/102798509?v=4" width="50" height="50" alt=""/><br />
       </a>
     </td>
   </tr>
