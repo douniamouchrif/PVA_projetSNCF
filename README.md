@@ -18,7 +18,7 @@ Pour une expérience plus agréable, nous vous conseillons l'installation de [Mo
 
 - __Dash (2.13.0)__ est un framework Python efficace pour créer des applications web. Il est idéal pour les tableaux de bord interactifs et pilotés par les données. Dash vous permet de créer des applications web en utilisant Python, éliminant ainsi la nécessité de connaissances en HTML, CSS ou JavaScript.
 
-- __Plotly (5.18.0)__ est une bibliothèque de création de graphiques qui vous permet de créer des graphiques qui sont interactifs et faciles à partager. Elle peut être utilisée en ligne et hors ligne et prend en charge un large éventail de types de graphiques. Dash crée des visualisations interactives pour ses applications web avec Plotly.
+- __Plotly (5.18.0)__ est une bibliothèque de création qui vous permet de créer des graphiques qui sont interactifs et faciles à partager. Elle peut être utilisée en ligne et hors ligne et prend en charge un large éventail de types de graphiques. (Dash crée des visualisations interactives pour ses applications web avec Plotly.)
 
 - __Pymongo (4.5.0)__ est un pilote Python pour la base de données NoSQL MongoDB. Les applications Python peuvent interagir avec les bases de données MongoDB, ce qui simplifie le stockage et la récupération des données. MongoDB est célèbre pour sa capacité à être scalable, à être flexible et à stocker des documents de type JSON.
 
