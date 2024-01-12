@@ -16,7 +16,6 @@ def layout():
     dropdown = build_dropdown_year(get_years_dropdown())
     graph = dcc.Graph(id='scatterplot')
     incident_origines = html.Div(id='incident_origines')
-
     avant = dbc.Button(
         "Avant", id="btn-avant5", color="primary", className="mr-1", style={'float': 'left', 'background-color': '#670907'})
     apres = dbc.Button(
@@ -40,10 +39,10 @@ def layout():
 
 
 @callback(
-    Output(component_id='scatterplot', component_property='figure'),
-    Output(component_id='incident_origines', component_property='children'),
-    [Input(component_id='dropdown', component_property='value'),
-     Input(component_id='scatterplot', component_property='selectedData')]
+    Output('scatterplot', 'figure'),
+    Output('incident_origines', 'children'),
+    [Input('dropdown', 'value'),
+     Input('scatterplot', 'selectedData')]
 )
 def graph_update(dropdown_values, selected_data):
     if dropdown_values is None:
@@ -52,14 +51,16 @@ def graph_update(dropdown_values, selected_data):
     figure = build_scatter(data, dropdown_values)
 
     origines_count = {}
+    year = None
+    month = None
     if selected_data and 'points' in selected_data:
         selected_points = selected_data['points']
         if selected_points:
             full_date = selected_points[0]['x']
             year, month = full_date.split('-')[:2]
             origines_count = get_origines_count(year, month)
-    origines_list = [html.Li(f"{origine}: {count}")
-                     for origine, count in origines_count.items()]
+    origines_list = [html.Li(f"Mois selectionné : {month}")] + [html.Li(f"Année selectionnnée : {year}")] + [html.Br()] + [html.Li(f"{origine}: {count}")
+                                                                                                                           for origine, count in origines_count.items()]
     return figure, html.Ul(origines_list)
 
 
