@@ -59,7 +59,7 @@ def graph_update(dropdown_values, selected_data):
             full_date = selected_points[0]['x']
             year, month = full_date.split('-')[:2]
             origines_count = get_origines_count(year, month)
-    origines_list = [html.Li(f"Mois selectionné : {month}")] + [html.Li(f"Année selectionnnée : {year}")] + [html.Br()] + [html.Li(f"{origine}: {count}")
+    origines_list = [html.Li(f"Mois sélectionné : {month}")] + [html.Li(f"Année sélectionnnée : {year}")] + [html.Br()] + [html.Li(f"{origine}: {count}")
                                                                                                                            for origine, count in origines_count.items()]
     return figure, html.Ul(origines_list)
 
