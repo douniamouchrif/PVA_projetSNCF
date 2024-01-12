@@ -6,7 +6,7 @@ from visus.interaction import build_radioitems
 from data.get_data import get_data_lineplot
 from story_telling.line_plot_story import get_text_below_lineplot
 
-question = "Quelles sont les causes des accidents les plus récurrentes ?"
+question = "Quelles sont les causes des incidents les plus récurrentes ? Dans quelles régions sont-elles le plus fréquentes ?"
 
 dash.register_page(__name__, question=question, external_stylesheets=[
     dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)

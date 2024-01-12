@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 from visus.builder import build_map, fetch_and_process_lines
 from visus.interaction import build_radioitems_map, generate_button_div
 from data.get_data import get_data_lines, get_data_regions, get_min_max_df, lineE_T
-from story_telling.barplot_story import get_text_below_barplot
+from story_telling.map_story import get_text_below_map
 
 question = "Quelles sont les regions les plus impactées par les incidents ?"
 
@@ -34,7 +34,7 @@ def layout():
         radioitems,
         button_div,
         html.Div(incident_map),
-        get_text_below_barplot(),
+        get_text_below_map(),
         dcc.Location(id='url-redirect3')
     ])
 
