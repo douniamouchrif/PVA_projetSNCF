@@ -4,8 +4,9 @@ import dash_bootstrap_components as dbc
 from visus.builder import build_map, fetch_and_process_lines
 from visus.interaction import build_radioitems_map, generate_button_div
 from data.get_data import get_data_lines, get_data_regions, get_min_max_df, lineE_T
+from story_telling.barplot_story import get_text_below_barplot
 
-question = "Quelles sont les regions les plus impactées par les incidents et comment des conditions météorologiques particulières peuvent-elles influencer le nombre d'accidents, en général ?"
+question = "Quelles sont les regions les plus impactées par les incidents ?"
 
 dash.register_page(__name__, question=question, external_stylesheets=[
     dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
@@ -33,6 +34,7 @@ def layout():
         radioitems,
         button_div,
         html.Div(incident_map),
+        get_text_below_barplot(),
         dcc.Location(id='url-redirect3')
     ])
 
@@ -49,7 +51,6 @@ lines_layer = None
 )
 def update_map_and_redirect(start_date, end_date, display_option, n_clicks_no_lines, n_clicks_with_lines, n_clicks_with_lines_types):
     global lines_layer
-    
     df_combined = get_data_lines()
     regions = get_data_regions()
     data_lines = lineE_T()

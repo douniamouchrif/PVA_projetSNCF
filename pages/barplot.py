@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 from visus.builder import barplot_1522
 from visus.interaction import build_range_slider
 from data.get_data import get_data_barplot_1522, get_years_range_slider
+from story_telling.barplot_story import get_text_below_barplot
 
 question = "Est-ce que les régions les plus fréquentées sont celles où se produisent le plus d’incidents ? Pour chaque région, quelle est la cause d’incidents qui atteint le plus grand niveau de gravité ?"
 
@@ -26,7 +27,8 @@ def layout():
         html.Div([html.P("Sélectionner un interval d'années :"),
                   rangeslider,
                   graph
-                  ])
+                  ]),
+        get_text_below_barplot(),
     ]), dcc.Location(id='url-redirect1')]
 
 
