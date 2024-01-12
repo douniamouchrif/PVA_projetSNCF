@@ -33,7 +33,7 @@ layout = html.Div([
                        href='https://formations.u-bordeaux.fr/#/details-formation?type=parcours-type&id=39693', target='_blank'),
                 " à l'Université de Bordeaux. "]),
         html.H4(
-            ["Nous réalisons un projet de visualisation sur les données de la SNCF."]),
+            ["Nous réalisons un projet de visualisation sur les données de la SNCF (Société nationale des chemins de fer français)."]),
         html.Br(),
         html.Img(src="/static/IMG/Groupe.jpg",
                  style={'width': '40%', 'margin-top': '20px', 'margin-bottom': '20px'}),

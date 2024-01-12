@@ -1,6 +1,8 @@
 from connect import db
 import pandas as pd
 
+# Fichier à exécuter une seule fois après la récupération des données !!
+
 collection_sncf1522 = db['sncf1522']
 cursor_sncf1522 = collection_sncf1522.find()
 df_sncf1522 = pd.DataFrame(list(cursor_sncf1522))
