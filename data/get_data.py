@@ -146,11 +146,6 @@ def get_min_max_df(df):
     end_date = df['date'].max().strftime('%Y-%m-%d')
     return start_date, end_date
 
-def merged(regions,df_combined):
-    total_incidents = df_combined.groupby('region').size().reset_index(name='incident_count')
-    merged_data = pd.merge(regions, total_incidents, left_on='nom', right_on='region', how='left')
-    merged_data['customdata'] = merged_data['incident_count']
-    return merged_data
 
 def lineE_T(with_lines_types=False):
     cursor = db.sncfLigneE.find({}) if not with_lines_types else db.sncfLigneT.find({})
