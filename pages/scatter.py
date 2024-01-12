@@ -6,7 +6,7 @@ from visus.interaction import build_dropdown_year
 from data.get_data import get_data_scatterplot, get_years_dropdown, get_origines_count
 from story_telling.scatter_plot_story import get_text_below_scatter
 
-question = "Comment les causes d’incidents ont-elles évolué au cours de ces 8 dernières années?"
+question = "Comment les gravités des causes d’incidents ont-elles évolué au cours de ces 8 dernières années ? Et combien y-a-t-il d'incidents par mois ?"
 
 dash.register_page(__name__, question=question, external_stylesheets=[
     dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
