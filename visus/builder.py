@@ -11,7 +11,7 @@ def build_boxplot(data):
                  category_orders={'year': sorted(data['year'].unique())},
                  animation_group='origine')
     fig.add_trace(go.Scatter(
-        x=['2019', '2019'],
+        x=['2020', '2020'],
         y=[0, data.groupby('year').cumcount().max() + 1],
         mode="lines",
         line=dict(color="red", width=2, dash='dash'),
@@ -53,9 +53,11 @@ def build_scatter(df, year):
 
 # Lineplot
 def build_lineplot(df, selected_option, cumulative_mode):
-    incidents_par_annee = df.groupby(['year', 'origine']).size().reset_index(name='nombre_incidents')
+    incidents_par_annee = df.groupby(
+        ['year', 'origine']).size().reset_index(name='nombre_incidents')
     if cumulative_mode:
-        incidents_par_annee['cumulative_incidents'] = incidents_par_annee.groupby('origine')['nombre_incidents'].cumsum()
+        incidents_par_annee['cumulative_incidents'] = incidents_par_annee.groupby(
+            'origine')['nombre_incidents'].cumsum()
         y_column = 'cumulative_incidents'
         title = 'Nombre cumulatif d\'incidents au cours des années'
     else:
@@ -63,11 +65,13 @@ def build_lineplot(df, selected_option, cumulative_mode):
         title = 'Nombre d\'incidents au cours des années'
 
     if selected_option == 'all':
-        aggregated_df = incidents_par_annee.groupby('year')[y_column].sum().reset_index()
+        aggregated_df = incidents_par_annee.groupby(
+            'year')[y_column].sum().reset_index()
         fig_line = px.line(aggregated_df, x='year', y=y_column, title=title,
                            labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
     else:
-        filtered_df_line = incidents_par_annee[incidents_par_annee['origine'].isin(df['origine'].unique())]
+        filtered_df_line = incidents_par_annee[incidents_par_annee['origine'].isin(
+            df['origine'].unique())]
         fig_line = px.line(filtered_df_line, x='year', y=y_column, color='origine',
                            title=title, labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
     return fig_line
@@ -75,26 +79,32 @@ def build_lineplot(df, selected_option, cumulative_mode):
 
 # Heapmap
 def build_heapmap(df, selected_option, click_data):
-    incidents_par_region_annee = df.groupby(['year', 'origine', 'region']).size().reset_index(name='nombre_incidents')
-    
+    incidents_par_region_annee = df.groupby(
+        ['year', 'origine', 'region']).size().reset_index(name='nombre_incidents')
+
     if click_data and 'points' in click_data and click_data['points']:
-        if selected_option == 'all' : #version globale du heapmap quand on passe de distinction à all 
+        if selected_option == 'all':  # version globale du heapmap quand on passe de distinction à all
             fig_heatmap = px.imshow(incidents_par_region_annee.pivot_table(index='year', columns='region', values='nombre_incidents'),
-                                labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
-                                title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
-        else :
+                                    labels=dict(x="Régions", y="Années",
+                                                color="Nombre d'incidents"),
+                                    title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
+        else:
             clicked_origine = click_data['points'][0]['curveNumber']
-            filtered_df = incidents_par_region_annee[incidents_par_region_annee['origine'] == df['origine'].unique()[clicked_origine]]
-            clicked_origine_label = incidents_par_region_annee['origine'].unique()[clicked_origine]
+            filtered_df = incidents_par_region_annee[incidents_par_region_annee['origine'] == df['origine'].unique()[
+                clicked_origine]]
+            clicked_origine_label = incidents_par_region_annee['origine'].unique()[
+                clicked_origine]
 
             fig_heatmap = px.imshow(filtered_df.pivot_table(index='year', columns='region', values='nombre_incidents'),
-                                    labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
+                                    labels=dict(x="Régions", y="Années",
+                                                color="Nombre d'incidents"),
                                     title=f'Heatmap du nombre d\'incidents causés par {clicked_origine_label} par région au cours des années')
     else:
         fig_heatmap = px.imshow(incidents_par_region_annee.pivot_table(index='year', columns='region', values='nombre_incidents'),
-                                labels=dict(x="Régions", y="Années", color="Nombre d'incidents"),
+                                labels=dict(x="Régions", y="Années",
+                                            color="Nombre d'incidents"),
                                 title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
-        
+
     fig_heatmap.update_layout(xaxis=dict(tickangle=45))
     return fig_heatmap
 
@@ -157,7 +167,7 @@ def barplot_1522(data):
 
 
 # Map
-def build_map(lines_layer, start_date, end_date, fig_fetch_and_process_lines, regions, df_combined, display_option, n_clicks_no_lines,n_clicks_with_lines,n_clicks_with_lines_types):
+def build_map(lines_layer, start_date, end_date, fig_fetch_and_process_lines, regions, df_combined, display_option, n_clicks_no_lines, n_clicks_with_lines, n_clicks_with_lines_types):
     if n_clicks_no_lines > 0:
         lines_layer = None
     elif n_clicks_with_lines > 0:
@@ -166,12 +176,16 @@ def build_map(lines_layer, start_date, end_date, fig_fetch_and_process_lines, re
         lines_layer = fig_fetch_and_process_lines
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
-    filtered_data = df_combined[(df_combined['date'] >= start_date) & (df_combined['date'] <= end_date)]
+    filtered_data = df_combined[(df_combined['date'] >= start_date) & (
+        df_combined['date'] <= end_date)]
     if display_option == 'incident_count':
-        display_data = filtered_data.groupby('region').size().reset_index(name='display_value')
+        display_data = filtered_data.groupby(
+            'region').size().reset_index(name='display_value')
     elif display_option == 'average_gravity':
-        display_data = filtered_data.groupby('region')['niveau_gravite'].mean().reset_index(name='display_value')
-    merged_data = pd.merge(regions, display_data, left_on='nom', right_on='region', how='left')
+        display_data = filtered_data.groupby(
+            'region')['niveau_gravite'].mean().reset_index(name='display_value')
+    merged_data = pd.merge(regions, display_data,
+                           left_on='nom', right_on='region', how='left')
     updated_fig = px.choropleth_mapbox(merged_data,
                                        geojson=merged_data.geometry,
                                        locations=merged_data.index,
@@ -186,8 +200,10 @@ def build_map(lines_layer, start_date, end_date, fig_fetch_and_process_lines, re
             updated_fig.add_trace(trace)
     return updated_fig
 
+
 def fetch_and_process_lines(data_lines):
     traces_lines = []
+
     def process_item(item):
         if 'geo_shape' in item and 'geometry' in item['geo_shape'] and 'coordinates' in item['geo_shape']['geometry']:
             coordinates = item['geo_shape']['geometry']['coordinates']
