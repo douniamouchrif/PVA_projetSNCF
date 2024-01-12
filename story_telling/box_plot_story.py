@@ -15,7 +15,7 @@ def get_text_below_boxplot():
         html.Br(),
         "2019 : Marqué par la ligne rouge pointillée, qui indique le début de la crise du COVID-19, nous observons une diminution significative du nombre médian d’événements, envrion 81 événements, avec une moindre dispersion que les années précédentes.",
         html.Br(),
-        "2020 : Le nombre d’événements a légérement diminué depuis 2019. La médiane est d'environ 91 événements, et la dispersion a quelque peu augmentée.",
+        "2020 : Le nombre d’événements a légérement augmenté depuis 2019. La médiane est d'environ 91 événements, et la dispersion a quelque peu augmentée.",
         html.Br(),
         "2021 : Une légère diminution par rapport à 2020, avec une médiane de 78 accidents. La dispersion reste plus faible par rapport aux années antérieures à 2020.",
         html.Br(),
