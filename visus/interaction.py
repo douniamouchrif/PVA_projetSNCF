@@ -2,6 +2,7 @@ from dash import dcc, html
 
 # Dropdown
 def build_dropdown_year(item_list):
+    # création d'un dictionnaire pour chaque élément
     options = [{"label": x, "value": x} for x in item_list]
     return dcc.Dropdown(id='dropdown',
                         options=options,
