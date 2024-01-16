@@ -46,6 +46,8 @@ def build_scatter(df, year):
     fig = px.scatter(df, x='Mois', y=gravite,
                      title=f'Gravité moyenne par mois', color=gravite)
     fig.update_traces(marker=dict(size=25), selector=dict(mode='markers'))
+    #mode de sélection et de clic sur le graphique. Avec cette configuration, 
+    #le graphique peut être interagi en cliquant et en sélectionnant des éléments
     fig.update_layout(clickmode='event+select', yaxis_title="Gravité")
     return fig
 
@@ -53,8 +55,7 @@ def build_scatter(df, year):
 # Lineplot
 def build_lineplot(df, selected_option, cumulative_mode):
     # Groupe les données par année et origine, puis compte le nombre d'incidents par groupe
-    incidents_par_annee = df.groupby(['year', 'origine']).size().reset_index(name='nombre_incidents')
-   
+    incidents_par_annee = df.groupby(['year', 'origine']).size().reset_index(name='nombre_incidents')   
     # Vérifie si le mode cumulatif est activé
     if cumulative_mode:
         # Calcule le nombre cumulatif d'incidents par origine au fil des années
@@ -84,27 +85,32 @@ def build_lineplot(df, selected_option, cumulative_mode):
 
 # Heapmap
 def build_heapmap(df, selected_option, click_data):
+    # Groupe les données par année, origine et région, puis compte le nombre d'incidents par groupe
     incidents_par_region_annee = df.groupby(
         ['year', 'origine', 'region']).size().reset_index(name='nombre_incidents')
-
+    # Vérifie s'il y a des données de clic et si l'option 'all' est sélectionnée
     if click_data and 'points' in click_data and click_data['points']:
-        if selected_option == 'all':  # version globale du heapmap quand on passe de distinction à all
+        if selected_option == 'all':  # version globale du heapmap quand on passe de distinction à all -> all=globale
+            # Crée un heatmap pour toutes les origines confondues
             fig_heatmap = px.imshow(incidents_par_region_annee.pivot_table(index='year', columns='region', values='nombre_incidents'),
                                     labels=dict(x="Régions", y="Années",
                                                 color="Nombre d'incidents"),
                                     title='Heatmap du nombre d\'incidents par région au cours des années pour toutes les origines confondues')
         else:
+            # Obtient l'origine sur laquelle l'utilisateur a cliqué
             clicked_origine = click_data['points'][0]['curveNumber']
+            # Filtre les données pour inclure uniquement l'origine spécifiée par le clic
             filtered_df = incidents_par_region_annee[incidents_par_region_annee['origine'] == df['origine'].unique()[
                 clicked_origine]]
             clicked_origine_label = incidents_par_region_annee['origine'].unique()[
                 clicked_origine]
-
+            # Crée un heatmap pour l'origine spécifique sélectionnée
             fig_heatmap = px.imshow(filtered_df.pivot_table(index='year', columns='region', values='nombre_incidents'),
                                     labels=dict(x="Régions", y="Années",
                                                 color="Nombre d'incidents"),
                                     title=f'Heatmap du nombre d\'incidents causés par {clicked_origine_label} par région au cours des années')
     else:
+        # Crée un heatmap pour toutes les origines confondues (option par défaut) -> au tout début quand on ouvre la page
         fig_heatmap = px.imshow(incidents_par_region_annee.pivot_table(index='year', columns='region', values='nombre_incidents'),
                                 labels=dict(x="Régions", y="Années",
                                             color="Nombre d'incidents"),

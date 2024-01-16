@@ -42,6 +42,7 @@ def get_data_scatterplot(year):
 
 def get_origines_count(year, month):
     if year == '2023':
+        # on a choisit un mois et une année spécifique (click)
         cursor = db.sncf23.find({'date': {'$regex': f'^{f"{year}-{month}"}'}}, {
                                 'origine': 1, '_id': 0})
     else:
@@ -67,6 +68,7 @@ def get_data_lineplot():
 # Sunburst
 def get_data_sunburst(year):
     if year == '2023':
+        # sup à 0 et inf à 7
         cursor = db.sncf23.find({'gravite_epsf': {'$ne': None, '$gt': 0, '$lt': 7}}, {
                                 'gravite_epsf': 1, 'origine': 1, 'date': 1, '_id': 0})
         df = pd.DataFrame(list(cursor))
@@ -80,21 +82,29 @@ def get_data_sunburst(year):
     df['year'] = df['date'].dt.strftime('%Y')
     df = df.dropna(subset=['year'])
     df = df[df['year'] == year]
+    # on regroupe par gravité et origine, comptage des occurrences
     df = df.groupby([gravite, 'origine']).size().reset_index(name='count')
+    # Définition des niveaux et de la colonne de valeur
     levels = ['origine', gravite]
     value_column = 'count'
+    # Initialisation du DataFrame pour stocker les données de tous les niveaux
     df_all_trees = pd.DataFrame(columns=['id', 'parent', 'value'])
+    # Boucle pour construire les données pour chaque niveau
     for i, level in enumerate(levels):
         df_tree = pd.DataFrame(columns=['id', 'parent', 'value'])
+        # Regroupement des données pour chaque niveau
         dfg = df.groupby(levels[i:]).sum(numeric_only=True)
         dfg = dfg.reset_index()
+        # Construction du DataFrame pour le niveau actu
         df_tree['id'] = dfg[level].copy()
         if i < len(levels) - 1:
             df_tree['parent'] = dfg[levels[i+1]].copy()
         else:
             df_tree['parent'] = 'ACCIDENTS SNCF'
         df_tree['value'] = dfg[value_column]
+        # Concaténation avec le DataFrame global
         df_all_trees = pd.concat([df_all_trees, df_tree], ignore_index=True)
+    # Calcul du total et ajout à la DataFrame global
     total = pd.Series(dict(id='ACCIDENTS SNCF', parent='',
                       value=df[value_column].sum()))
     df_all_trees = pd.concat([df_all_trees, pd.DataFrame(

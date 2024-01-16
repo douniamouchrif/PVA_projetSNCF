@@ -1,5 +1,5 @@
 import dash
-from dash import html
+from dash import html, dcc
 import dash_bootstrap_components as dbc
 from pages.sidebar import generate_sidebar
 
@@ -19,3 +19,4 @@ app.layout = html.Div(style={'backgroundColor': '#c0c0bb', 'min-height': '100vh'
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+

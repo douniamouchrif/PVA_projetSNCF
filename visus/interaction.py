@@ -81,11 +81,15 @@ def build_radioitems_map(start_date, end_date):
 
 # Buttons Map
 def generate_button_div():
+    # Liste de tuples contenant l'ID et le libellé de chaque bouton
     button_info = [
         ('button-no-electric-lines', 'Sans les lignes'),
-        ('button-with-electric-lines', 'Lignes éléctrifiés'),
+        ('button-with-electric-lines', 'Lignes électrifiées'),
         ('button-with-lines-types', 'Lignes types'),
     ]
-    buttons = [html.Button(label, id=button_id, n_clicks=0) for button_id, label in button_info]
-    button_div = html.Div(buttons, style={'textAlign': 'center', 'justify-content': 'space-between'})
+    # Crée une liste de boutons à partir de button_info
+    buttons = [html.Button(label, id=button_id, n_clicks=0) for button_id, label in button_info]   
+    # Crée une division contenant les boutons, avec une mise en page spécifique
+    button_div = html.Div(buttons, style={'textAlign': 'center', 'justify-content': 'space-between'})   
+    # Retourne la division contenant les boutons
     return button_div
