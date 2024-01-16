@@ -6,10 +6,9 @@ import concurrent.futures
 
 # Boxplot
 def build_boxplot(data):
-    fig = px.box(data, x='year', y=data.groupby('year').cumcount(), labels={'y': 'Nombre d incidents'},
+    fig = px.box(data, x='year', y=data.groupby('year').cumcount(),
                  title='Nombre d\'incidents par année',
-                 category_orders={'year': sorted(data['year'].unique())},
-                 animation_group='origine')
+                 category_orders={'year': sorted(data['year'].unique())})
     fig.add_trace(go.Scatter(
         x=['2020', '2020'],
         y=[0, data.groupby('year').cumcount().max() + 1],
@@ -53,28 +52,34 @@ def build_scatter(df, year):
 
 # Lineplot
 def build_lineplot(df, selected_option, cumulative_mode):
-    incidents_par_annee = df.groupby(
-        ['year', 'origine']).size().reset_index(name='nombre_incidents')
+    # Groupe les données par année et origine, puis compte le nombre d'incidents par groupe
+    incidents_par_annee = df.groupby(['year', 'origine']).size().reset_index(name='nombre_incidents')
+   
+    # Vérifie si le mode cumulatif est activé
     if cumulative_mode:
-        incidents_par_annee['cumulative_incidents'] = incidents_par_annee.groupby(
-            'origine')['nombre_incidents'].cumsum()
+        # Calcule le nombre cumulatif d'incidents par origine au fil des années
+        incidents_par_annee['cumulative_incidents'] = incidents_par_annee.groupby('origine')['nombre_incidents'].cumsum()
         y_column = 'cumulative_incidents'
         title = 'Nombre cumulatif d\'incidents au cours des années'
     else:
         y_column = 'nombre_incidents'
         title = 'Nombre d\'incidents au cours des années'
-
+    # Vérifie l'option sélectionnée ('all' ou une origine spécifique)
     if selected_option == 'all':
-        aggregated_df = incidents_par_annee.groupby(
-            'year')[y_column].sum().reset_index()
+        # Agrège les données pour toutes les origines
+        aggregated_df = incidents_par_annee.groupby('year')[y_column].sum().reset_index()       
+        # Crée un graphique de ligne pour l'agrégation
         fig_line = px.line(aggregated_df, x='year', y=y_column, title=title,
                            labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
     else:
-        filtered_df_line = incidents_par_annee[incidents_par_annee['origine'].isin(
-            df['origine'].unique())]
+        # Filtre les données pour inclure uniquement l'origine spécifiée dans 'selected_option'
+        filtered_df_line = incidents_par_annee[incidents_par_annee['origine'].isin(df['origine'].unique())]       
+        # Crée un graphique de ligne pour les données filtrées par origine
         fig_line = px.line(filtered_df_line, x='year', y=y_column, color='origine',
-                           title=title, labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'})
+                           title=title, labels={'nombre_incidents': 'Nombre d\'incidents', 'year': 'Années'}) 
+    # Retourne le graphique de ligne résultant
     return fig_line
+
 
 
 # Heapmap
@@ -202,11 +207,15 @@ def build_map(lines_layer, start_date, end_date, fig_fetch_and_process_lines, re
 
 
 def fetch_and_process_lines(data_lines):
+    # Liste qui stocke les traces pour les lignes géographiques
     traces_lines = []
-
+    # Fonction interne pour traiter chaque élément (item) des données
     def process_item(item):
+        # Vérifie si les clés nécessaires sont présentes dans l'élément
         if 'geo_shape' in item and 'geometry' in item['geo_shape'] and 'coordinates' in item['geo_shape']['geometry']:
-            coordinates = item['geo_shape']['geometry']['coordinates']
+            # Récupère les coordonnées de l'élément
+            coordinates = item['geo_shape']['geometry']['coordinates']          
+            # Crée une trace pour la ligne géographique
             trace_line = go.Scattermapbox(
                 lat=[coord[1] for coord in coordinates],
                 lon=[coord[0] for coord in coordinates],
@@ -215,7 +224,11 @@ def fetch_and_process_lines(data_lines):
                 hoverinfo='none',
                 showlegend=False,
             )
+            # Ajoute la trace à la liste des traces_lines
             traces_lines.append(trace_line)
+    # Utilise un ThreadPoolExecutor pour traiter les éléments en parallèle
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(process_item, data_lines)
+    # Retourne la liste des traces_lines résultantes
     return traces_lines
+

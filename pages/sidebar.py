@@ -27,11 +27,12 @@ def generate_sidebar(pathname):
             html.Hr(style={"border-color": "white"}),
             html.P("Menu", className="lead", style={"color": "white"}),
             dbc.Nav(
+                # créer une liste de liens
                 [
                     dbc.NavLink(
-                        f"{page['name']}",
-                        href=page["relative_path"],
-                        id=f"{page['name'].lower()}-link",
+                        f"{page['name']}", #Le texte du lien est le nom de la page.
+                        href=page["relative_path"], #L'attribut "href" spécifie le chemin relatif vers la page.
+                        id=f"{page['name'].lower()}-link", #L'ID du lien, converti en minuscules.
                         style={
                             **NAV_LINK_STYLE,
                             "font-size": "1.5rem" 

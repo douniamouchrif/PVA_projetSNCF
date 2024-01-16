@@ -148,6 +148,7 @@ def get_min_max_df(df):
 
 
 def lineE_T(with_lines_types=False):
+    # Si with_lines_types est False, on récupère les données de la collection sncfLigneE, sinon de sncfLigneT
     cursor = db.sncfLigneE.find({}) if not with_lines_types else db.sncfLigneT.find({})
     data_lines = pd.DataFrame(list(cursor))
     return data_lines

@@ -19,6 +19,7 @@ def build_dropdown_year_multi(item_list):
 
 # Range slider
 def build_range_slider(min_val, max_val, default_values, marks_list):
+    # Crée un dictionnaire de marques pour le curseur de plage
     marks = {str(mark): str(mark) for mark in marks_list}
     return dcc.RangeSlider(
         id='rangeslider',
