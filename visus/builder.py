@@ -148,6 +148,7 @@ def build_sunburst(df_all_trees):
         'Heurt installation par tiers': 'aquamarine',
         'ACCIDENTS SNCF': 'white'
     }
+    # on ajoute d'une colonne 'color' basée sur la correspondance avec les couleurs définies
     df_all_trees['color'] = df_all_trees['id'].map(colors)
 
     fig = go.Figure(go.Sunburst(
