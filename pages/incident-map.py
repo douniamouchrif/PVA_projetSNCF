@@ -50,7 +50,7 @@ lines_layer = None
      Input('button-with-lines-types', 'n_clicks')]
 )
 def update_map_and_redirect(start_date, end_date, display_option, n_clicks_no_lines, n_clicks_with_lines, n_clicks_with_lines_types):
-    global lines_layer
+    global lines_layer #variable globale :  la variable peut être modifiée à l'extérieur de la portée de la fonction actuelle
     df_combined = get_data_lines()
     regions = get_data_regions()
     data_lines = lineE_T()

@@ -75,6 +75,7 @@ def build_radioitems_map(start_date, end_date):
         "style": {"fontSize": 20, "textAlign": "center"},
         "id": "map-display-option"
     }
+    # tuple donc on doit mettre des étoiles : retourner en tant qu'éléments distincts plutôt que sous la forme d'un tuple
     datepickerrange = dcc.DatePickerRange(**datepickerrange_props)
     radioitems = dcc.RadioItems(**radioitems_props)
     return datepickerrange, radioitems
